@@ -11,6 +11,11 @@ import foodfrog.kern.Zutat;
 public class Wochenplanverwaltung {
 	
 	private List<Gericht> wochenplan;
+	private EntiaetVerwalter verwalter;
+	
+	public Wochenplanverwaltung(EntiaetVerwalter verwalter) {
+		this.verwalter = verwalter;
+	}
 	
 	public List<Gericht> generiereWochenplan (int anzahl, List<Kategorie> filterListe){
 		return null;
@@ -25,7 +30,7 @@ public class Wochenplanverwaltung {
 	}
 	
 	public boolean gerichtHinzufuegen(Gericht gericht) {
-		if(this.wochenplan.size() <= 7) {
+		if(this.wochenplan.size() < 7) {
 			this.wochenplan.add(holeNeuesGericht());
 			return true;
 		}else {
