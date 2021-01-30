@@ -3,4 +3,8 @@ bin/
 .settings
 .project
 target/
+foodfrog.adapter/target
+foodfrog.kern/target
+foodfrog.application/target
+foodfrog.plugin/target
 
