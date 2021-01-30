@@ -16,14 +16,15 @@ import javax.swing.SwingConstants;
 
 public class Hauptfenster extends JFrame {
 
-	public JButton btnWochenplan;
-	public JButton btnEinkaufliste;
-	public JButton btnRezepterstellung;
-	public JLabel label;
-	public JLabel copyright;
-	public JButton foodfrogLogo;
-	public JPanel hauptPanel;
-	public JPanel buttonPanel;
+	private JButton btnWochenplan;
+	private JButton btnEinkaufliste;
+	private JButton btnRezepterstellung;
+	private JLabel label;
+	private JLabel copyright;
+	private JButton foodfrogLogo;
+	private JPanel hauptPanel;
+	private JPanel buttonPanel;
+	private GerichtFormular gerichtformular;
 
 	public Hauptfenster() {
 
@@ -74,6 +75,12 @@ public class Hauptfenster extends JFrame {
 			
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				
+				GerichtFormular gerichtformular = new GerichtFormular();
+				hauptPanel.removeAll();
+				hauptPanel.add(gerichtformular);
+				Hauptfenster.this.repaint();
+				Hauptfenster.this.revalidate();
 				
 			}
 		});
