@@ -2,6 +2,7 @@ package foodfrog.applikation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import foodfrog.kern.Gericht;
@@ -15,10 +16,16 @@ public class Wochenplanverwaltung {
 	
 	public Wochenplanverwaltung(EntiaetVerwalter verwalter) {
 		this.verwalter = verwalter;
+		wochenplan = new ArrayList<>();
 	}
 	
 	public List<Gericht> generiereWochenplan (int anzahl, List<Kategorie> filterListe){
-		return null;
+		wochenplan.clear();
+		//TODO: filter einbauen, ueblergen ob das die Datenbank filtert
+		for (int i = 0; i < anzahl; i++) {
+			this.wochenplan.add(this.holeNeuesGericht());
+		}
+		return this.wochenplan;
 	}
 	
 	public boolean gerichtLoeschen(Gericht gericht){
@@ -30,7 +37,7 @@ public class Wochenplanverwaltung {
 	}
 	
 	public boolean gerichtHinzufuegen(Gericht gericht) {
-		if(this.wochenplan.size() < 7) {
+		if(this.wochenplan.size() < 7 && !this.wochenplan.contains(gericht)) {
 			this.wochenplan.add(holeNeuesGericht());
 			return true;
 		}else {
@@ -48,8 +55,14 @@ public class Wochenplanverwaltung {
 	}
 
 	private Gericht holeNeuesGericht() {
-		return null;
+		Gericht gericht = this.verwalter.holeZufaellig();
+		while(this.wochenplan.contains(gericht)) {
+			gericht = this.verwalter.holeZufaellig();
+		}
+		return gericht;
 	}
+	
+
 	
 	
 
