@@ -1,12 +1,16 @@
 package foodfrog.kern;
 
 import java.util.Date;
+import java.util.List;
 
 public class Gericht {
 	
 	private String name;
 	private String beschreibung;
 	private Date aufwand;
+	private List<Bild> bilder;
+	private List<Zutat> zutaten;
+	private List<Kategorie> kategorien;
 	
 	
 	public Gericht(String name, String beschreibung, Date aufwand) {
@@ -18,9 +22,10 @@ public class Gericht {
 	
 	public Gericht() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
+	
+	
 	public String getName() {
 		return name;
 	}
@@ -39,6 +44,32 @@ public class Gericht {
 	public void setAufwand(Date aufwand) {
 		this.aufwand = aufwand;
 	}
+
+	public List<Bild> getBilder() {
+		return bilder;
+	}
+
+	public void setBilder(List<Bild> bilder) {
+		this.bilder = bilder;
+	}
+
+	public List<Zutat> getZutaten() {
+		return zutaten;
+	}
+
+	public void setZutaten(List<Zutat> zutaten) {
+		this.zutaten = zutaten;
+	}
+
+	public List<Kategorie> getKategorien() {
+		return kategorien;
+	}
+
+	public void setKategorien(List<Kategorie> kategorien) {
+		this.kategorien = kategorien;
+	}
+	
+	
 	
 	
 
