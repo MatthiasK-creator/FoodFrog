@@ -1,6 +1,6 @@
 package foodfrog.adapter;
 
 
-public class Beobachter {
-
+public abstract class Beobachter {
+	public void aktualisiere(Object o) {};
 }
