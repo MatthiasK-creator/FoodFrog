@@ -2,13 +2,13 @@ package foodfrog.adapter;
 
 import foodfrog.applikation.EntiaetVerwalter;
 
-public class WochenplanRegler extends Beobachter{
-	
+public class WochenplanRegler implements Beobachter{
 	
 	
 	
 	@Override
-	public void aktualisiere(Object o) {
+	public void aktualisiere() {
+		// TODO Auto-generated method stub
 		
 	}
 	

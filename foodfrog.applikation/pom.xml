@@ -3,6 +3,15 @@
   <groupId>dhbw.tinf18b1.foodfrog.applikation</groupId>
   <artifactId>foodfrog.applikation</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+      <dependency>
+	  	  <artifactId>foodfrog.kern</artifactId>
+	  	  <groupId>dhbw.tinf18b1.foodfrog.kern</groupId>
+	  	  <scope>compile</scope>
+	  	  <version>0.0.1-SNAPSHOT</version>
+	  </dependency>
+  
+  </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
