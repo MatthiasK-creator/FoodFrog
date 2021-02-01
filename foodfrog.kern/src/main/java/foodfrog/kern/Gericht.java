@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Gericht {
-	
+	private long id;
 	private String name;
 	private String beschreibung;
 	private Date aufwand;
@@ -68,6 +68,12 @@ public class Gericht {
 	public void setKategorien(List<Kategorie> kategorien) {
 		this.kategorien = kategorien;
 	}
+
+	public long getId() {
+		return id;
+	}
+	
+	
 	
 	
 	

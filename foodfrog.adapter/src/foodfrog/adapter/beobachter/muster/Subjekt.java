@@ -1,11 +1,10 @@
-package foodfrog.adapter;
+package foodfrog.adapter.beobachter.muster;
 
 public interface Subjekt {
 	public void meldeAn(Beobachter beobachter);
 	
 	public void meldeAb(Beobachter beobachter);
 	
-	public void benachrichtige(Object o);
+	public void benachrichtige(Ereignis ereignis);
 	
-	public Object gibZustand();
 }

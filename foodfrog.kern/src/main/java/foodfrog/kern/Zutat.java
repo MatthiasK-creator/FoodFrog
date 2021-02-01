@@ -4,7 +4,7 @@ public class Zutat {
 	
 	private String bezeichnung;
 	private int menge;
-	private Gericht gericht;
+	private Einheit einheit;
 	
 	
 	public Zutat() {
@@ -33,6 +33,15 @@ public class Zutat {
 	public void setMenge(int menge) {
 		this.menge = menge;
 	}
+
+	public Einheit getEinheit() {
+		return einheit;
+	}
+
+	public void setEinheit(Einheit einheit) {
+		this.einheit = einheit;
+	}
+	
 	
 	
 

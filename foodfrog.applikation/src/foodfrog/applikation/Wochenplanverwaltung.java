@@ -2,7 +2,6 @@ package foodfrog.applikation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import foodfrog.kern.Gericht;
@@ -60,6 +59,10 @@ public class Wochenplanverwaltung {
 			gericht = this.verwalter.holeZufaellig();
 		}
 		return gericht;
+	}
+	
+	public List<Gericht> getWochenplan() {
+		return wochenplan;
 	}
 	
 
