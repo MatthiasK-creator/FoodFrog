@@ -1,5 +1,9 @@
 package foodfrog.applikation;
 
+import java.util.List;
+
+import javax.swing.ImageIcon;
+
 import foodfrog.kern.Gericht;
 
 public class Gerichtverwaltung {
@@ -32,5 +36,8 @@ public class Gerichtverwaltung {
 		return this.verwalter.hole(id);
 	}
 	
+	public List<Gericht> holeAlleGerichte() {
+		return this.verwalter.holeAlleGerichte();
+	}
 
 }

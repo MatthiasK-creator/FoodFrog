@@ -9,34 +9,30 @@ import foodfrog.adapter.beobachter.muster.Subjekt;
 import foodfrog.applikation.Gerichtverwaltung;
 import foodfrog.kern.Gericht;
 
-public class GerichtRegler implements Beobachter, Subjekt{
+public class GerichtRegler implements Subjekt{
 	
 	private Gerichtverwaltung verwaltung;
-	private Gericht aktuellesGericht;
 	
 	private List<Beobachter> beobachter;
 	
-	private static final String KOMANNDO_GERICHT_LOESCHEN = "GERICHT.LOESCHEN";
-	private static final String KOMANNDO_GERICHT_AENDERN = "GERICHT.AENDERN";
-	private static final String KOMANNDO_GERICHT_ANLEGEN = "GERICHT.ANLEGEN";
 	
 	public GerichtRegler(Gerichtverwaltung verwaltung) {
 		this.beobachter = new ArrayList<>();
 		this.verwaltung = verwaltung;
 	}
 	
-	@Override
-	public void aktualisiere(Ereignis ereignis) {
-		this.aktuellesGericht  = (Gericht) ereignis.getDaten();
-		if(ereignis.getKommando().equals(KOMANNDO_GERICHT_ANLEGEN)) {
-			this.verwaltung.erstelleGericht(this.aktuellesGericht);
-		}else if(ereignis.getKommando().equals(KOMANNDO_GERICHT_AENDERN)) {
-			this.verwaltung.aendereGericht(this.aktuellesGericht.getId(), aktuellesGericht);
-		}else if(ereignis.getKommando().equals(KOMANNDO_GERICHT_LOESCHEN)) {
-			this.verwaltung.loescheGericht(this.aktuellesGericht.getId());
-		}
+	public Gericht erstelleGericht(Gericht gericht) {
+		return this.verwaltung.erstelleGericht(gericht);
 	}
-
+	
+	public Gericht aendereGericht(Gericht gericht) {
+		return this.verwaltung.aendereGericht(gericht.getId(), gericht);
+	}
+	
+	public boolean loescheGericht(long id) {
+		return this.verwaltung.loescheGericht(id);
+	}
+	
 
 
 	@Override
@@ -58,12 +54,12 @@ public class GerichtRegler implements Beobachter, Subjekt{
 
 
 	@Override
-	public void benachrichtige(Ereignis ereignis) {
+	public void benachrichtige() {
 		for (Beobachter beobachter : beobachter) {
-			beobachter.aktualisiere(ereignis);
+			beobachter.aktualisiere(this.verwaltung.holeAlleGerichte());
 		}
-		
 	}
+
 
 
 

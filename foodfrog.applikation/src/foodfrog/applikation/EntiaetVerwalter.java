@@ -12,5 +12,6 @@ public interface EntiaetVerwalter {
 	public Gericht hole(long id);
 	public Gericht holeZufaellig();
 	public Gericht holeZufaelligMitFilter(List<Kategorie> filter);
+	public List<Gericht> holeAlleGerichte();
 
 }

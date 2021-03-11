@@ -1,18 +1,24 @@
 package foodfrog.kern;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Kategorie {
-	
 	private String kategorie;
-	private Gericht gericht;
+	private List<Kategorie> unterKategorien;
 	
 	public Kategorie() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Kategorie(String kategorie) {
 		super();
 		this.kategorie = kategorie;
+		this.unterKategorien = new ArrayList<Kategorie>();
+	}
+	public Kategorie(String kategorie, List<Kategorie> kategorien) {
+		this.kategorie = kategorie;
+		this.unterKategorien = kategorien;
 	}
 
 	public String getKategorie() {
@@ -21,6 +27,13 @@ public class Kategorie {
 
 	public void setKategorie(String kategorie) {
 		this.kategorie = kategorie;
+	}
+	
+	public void setUnterKategorien(List<Kategorie> unterKategorien) {
+		this.unterKategorien = unterKategorien;
+	}
+	public List<Kategorie> getUnterKategorien() {
+		return unterKategorien;
 	}
 	
 	

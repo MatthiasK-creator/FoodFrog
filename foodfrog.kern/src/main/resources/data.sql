@@ -1,0 +1,1 @@
+INSERT INTO gericht VALUES ("Spaghetti Bolognese", "Wie mache ich leckere Spaghetti?", 00:45, )

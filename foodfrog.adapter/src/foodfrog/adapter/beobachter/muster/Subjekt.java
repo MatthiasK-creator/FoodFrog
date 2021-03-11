@@ -5,6 +5,6 @@ public interface Subjekt {
 	
 	public void meldeAb(Beobachter beobachter);
 	
-	public void benachrichtige(Ereignis ereignis);
+	public void benachrichtige();
 	
 }

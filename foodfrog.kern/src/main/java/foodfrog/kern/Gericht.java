@@ -3,13 +3,33 @@ package foodfrog.kern;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Gericht {
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	
+	@Column(name = "Name")
 	private String name;
+	
+	@Column(name = "Beschreibung")
 	private String beschreibung;
+	
+	@Column(name = "Aufwand")
 	private Date aufwand;
+	
+	@ManyToOne
 	private List<Bild> bilder;
+	@ManyToOne
 	private List<Zutat> zutaten;
+	@ManyToMany
 	private List<Kategorie> kategorien;
 	
 	
