@@ -2,23 +2,25 @@ package foodfrog.plugin;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class GerichtFormular extends JPanel {
-
-	private Hauptfenster hauptfenster;
 
 	private JButton btnStartseite;
 	private JButton btnSpeichern;
@@ -35,7 +37,7 @@ public class GerichtFormular extends JPanel {
 	private JTextField tfPortion;
 	private JTextField tfMenge;
 	private JTextField tfZutatenname;
-	
+
 	private JLabel rezept;
 	private JLabel rezeptname;
 	private JLabel kategorie;
@@ -44,14 +46,16 @@ public class GerichtFormular extends JPanel {
 	private JLabel portionen;
 	private JLabel zubereitungszeit;
 	private JLabel logoRezeptFrog;
-	
+
 	private JComboBox landbox;
 	private JComboBox zubereitungbox;
 	private JComboBox sonstigesbox;
 	private JComboBox einheitenbox;
-	
+	private JFrame hauptfenster;
 
-	public GerichtFormular() {
+	public GerichtFormular(Hauptfenster hauptfenster) {
+		
+		this.hauptfenster = hauptfenster;
 
 		// Navigationsleiste konfigurieren
 
@@ -69,6 +73,16 @@ public class GerichtFormular extends JPanel {
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
+
+		btnStartseite.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+
+				GerichtFormular.this.hauptfenster.requestFocus();
+
+			}
+		});
 
 		// Button Speichern
 		btnSpeichern = new JButton("Speichern");
@@ -112,6 +126,8 @@ public class GerichtFormular extends JPanel {
 
 		pnlRezeptname = new JPanel();
 		pnlRezeptname.setLayout(new GridLayout(2, 1));
+		pnlRezeptname.setSize(new Dimension(100, 100));
+
 		rezeptname = new JLabel("Rezeptname");
 		rezeptname.setFont(new Font("Arial", Font.BOLD, 20));
 		tfRezeptname = new JTextField();
@@ -132,81 +148,87 @@ public class GerichtFormular extends JPanel {
 		pnlPortion.add(tfPortion);
 
 		// Panel Kategorie
-		
+
 		pnlKategorie = new JPanel();
-		pnlKategorie.setLayout(new GridLayout(2,1));
-		
+		pnlKategorie.setLayout(new GridLayout(2, 1));
+
 		kategorie = new JLabel("Kateogrie");
 		kategorie.setFont(new Font("Arial", Font.BOLD, 20));
-		
+
 		JPanel pnlunterKategorie = new JPanel();
-		pnlunterKategorie.setLayout(new GridLayout(2,3));
-		
+		pnlunterKategorie.setLayout(new GridLayout(2, 3));
+
 		JLabel land = new JLabel("Länderkategorie: ");
 		land.setFont(new Font("Arial", Font.ITALIC, 15));
 		JLabel zubereitung = new JLabel("Zubereitungsart: ");
 		zubereitung.setFont(new Font("Arial", Font.ITALIC, 15));
 		JLabel sonstiges = new JLabel("Sonstiges: ");
 		sonstiges.setFont(new Font("Arial", Font.ITALIC, 15));
-		
+
 		landbox = new JComboBox();
 		zubereitungbox = new JComboBox();
 		sonstigesbox = new JComboBox();
-		
+
 		pnlunterKategorie.add(land);
 		pnlunterKategorie.add(zubereitung);
 		pnlunterKategorie.add(sonstiges);
 		pnlunterKategorie.add(landbox);
 		pnlunterKategorie.add(zubereitungbox);
 		pnlunterKategorie.add(sonstigesbox);
-		
-		
+
 		pnlKategorie.add(kategorie);
 		pnlKategorie.add(pnlunterKategorie);
-		
+
 		// Komponente Zutaten und Mengenangaben
-		
+
 		pnlZutatenMengen = new JPanel();
-		pnlZutatenMengen.setLayout(new GridLayout(3,1));
-		
-		
+		pnlZutatenMengen.setLayout(new GridLayout(4, 1));
+
 		zutatenMengen = new JLabel("Zutaten und Mengenangaben");
 		zutatenMengen.setFont(new Font("Arial", Font.BOLD, 20));
-		
+
+		btnPlus = new JButton();
+		btnPlus.setFont(new Font("Arial", Font.PLAIN, 20));
+		try {
+			Image imgPlus = ImageIO.read(getClass().getClassLoader().getResource("plus.png"));
+			System.out.println(imgPlus);
+			imgPlus = imgPlus.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+			btnPlus.setIcon(new ImageIcon(imgPlus));
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+
 		JPanel pnlZutatenMengenErstellung = new JPanel();
-		pnlZutatenMengenErstellung.setLayout(new GridLayout(1,3));
-		
+		pnlZutatenMengenErstellung.setLayout(new GridLayout(1, 3));
+
 		JLabel menge = new JLabel("Menge ");
 		menge.setFont(new Font("Arial", Font.ITALIC, 15));
 		JLabel einheit = new JLabel("Einheit ");
 		einheit.setFont(new Font("Arial", Font.ITALIC, 15));
 		JLabel zutatenname = new JLabel("Zutatenname ");
 		zutatenname.setFont(new Font("Arial", Font.ITALIC, 15));
-		
+
 		pnlZutatenMengenErstellung.add(menge);
 		pnlZutatenMengenErstellung.add(einheit);
 		pnlZutatenMengenErstellung.add(zutatenname);
-	
-		
-		pnlZutatenMengen.add(zutatenMengen);		
-		pnlZutatenMengen.add(pnlZutatenMengenErstellung);		
-		
+
+		pnlZutatenMengen.add(zutatenMengen);
+		pnlZutatenMengen.add(btnPlus);
+		pnlZutatenMengen.add(pnlZutatenMengenErstellung);
 
 		// Rezepterstellungs Komponenente
 
 		pnlErstellung = new JPanel();
-
-		// Hauptpanel hinzufügen
+		pnlErstellung.setLayout(new GridLayout(4, 1));
 
 		pnlErstellung.add(pnlRezeptname);
 		pnlErstellung.add(pnlPortion);
 		pnlErstellung.add(pnlKategorie);
 		pnlErstellung.add(pnlZutatenMengen);
 
-		this.setLayout(new GridLayout(2, 1));
-		this.add(pnlNavigationsleiste);
-		this.add(pnlErstellung);
-		this.setSize(800, 500);
+		this.setLayout(new BorderLayout());
+		this.add(pnlNavigationsleiste, BorderLayout.NORTH);
+		this.add(pnlErstellung, BorderLayout.CENTER);
 		this.setVisible(true);
 	}
 

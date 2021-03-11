@@ -1,5 +1,6 @@
 package foodfrog.plugin;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
@@ -11,8 +12,10 @@ import java.awt.event.ActionListener;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -31,13 +34,12 @@ public class Hauptfenster extends JFrame {
 	public Hauptfenster() {
 
 		hauptPanel = new JPanel();
-		hauptPanel.setLayout(new GridLayout(4, 1));
+		hauptPanel.setLayout(new BorderLayout());
 
 		// Foodfrog Logo
 		foodfrogLogo = new JLabel();
 		foodfrogLogo.setSize((new Dimension(200, 200)));
 		foodfrogLogo.setHorizontalAlignment(SwingConstants.CENTER);
-		
 
 		// Logo im Label verankern
 
@@ -49,6 +51,9 @@ public class Hauptfenster extends JFrame {
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
+
+		JPanel pnlMitte = new JPanel();
+		pnlMitte.setLayout(new GridLayout(2, 1));
 
 		// Label unter Logo
 
@@ -125,12 +130,16 @@ public class Hauptfenster extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
-				GerichtFormular gerichtformular = new GerichtFormular();
-				hauptPanel.removeAll();
-				hauptPanel.add(gerichtformular);
-				Hauptfenster.this.repaint();
-				Hauptfenster.this.revalidate();
+				String[] options = new String[] {};
+				GerichtFormular gerichtFormular = new GerichtFormular(Hauptfenster.this);
 
+				JDialog	dialogFormular = new JDialog();
+				dialogFormular.setTitle("Gerichformular");
+				dialogFormular.add(gerichtFormular);
+				dialogFormular.setSize(1700,1080);
+				// dialogFormular.pack();
+				dialogFormular.setVisible(true);
+				
 			}
 		});
 
@@ -140,6 +149,11 @@ public class Hauptfenster extends JFrame {
 		buttonPanel.add(btnEinkaufliste);
 		buttonPanel.add(btnRezepterstellung);
 
+		// Panel Mitte befüllen
+
+		pnlMitte.add(label);
+		pnlMitte.add(buttonPanel);
+
 		// Fußzeile hinzufügen
 
 		copyright = new JLabel();
@@ -148,10 +162,9 @@ public class Hauptfenster extends JFrame {
 		copyright.setFont(new Font("Arial", Font.PLAIN, 15));
 
 		// Hauptpanel alle Komponenten hinzufügen
-		hauptPanel.add(foodfrogLogo);
-		hauptPanel.add(label);
-		hauptPanel.add(buttonPanel);
-		hauptPanel.add(copyright);
+		hauptPanel.add(foodfrogLogo, BorderLayout.NORTH);
+		hauptPanel.add(pnlMitte, BorderLayout.CENTER);
+		hauptPanel.add(copyright, BorderLayout.SOUTH);
 
 		// Klasse Hauptfenster alles hinzufügen
 
@@ -160,6 +173,7 @@ public class Hauptfenster extends JFrame {
 		this.setSize(1700, 1080);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.pack();
 	}
 
 }
