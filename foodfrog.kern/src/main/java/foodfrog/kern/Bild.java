@@ -2,7 +2,7 @@ package foodfrog.kern;
 
 
 public class Bild {
-	private long id;
+	private int id;
 	private String titel;
 	private byte[] grafik;
 	
@@ -20,6 +20,10 @@ public class Bild {
 	}
 	public void setGrafik(byte[] grafik) {
 		this.grafik = grafik;
+	}
+	
+	public int getId() {
+		return id;
 	}
 	
 	

@@ -8,6 +8,7 @@ import foodfrog.adapter.beobachter.muster.Ereignis;
 import foodfrog.adapter.beobachter.muster.Subjekt;
 import foodfrog.applikation.Gerichtverwaltung;
 import foodfrog.kern.Gericht;
+import foodfrog.kern.Kategorie;
 
 public class GerichtRegler implements Subjekt{
 	
@@ -33,6 +34,10 @@ public class GerichtRegler implements Subjekt{
 		return this.verwaltung.loescheGericht(id);
 	}
 	
+	public List<Gericht> holeAlleGerichte(){
+		return this.verwaltung.holeAlleGerichte();
+	}
+
 
 
 	@Override

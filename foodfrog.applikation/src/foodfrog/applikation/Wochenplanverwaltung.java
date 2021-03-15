@@ -20,10 +20,7 @@ public class Wochenplanverwaltung {
 	
 	public List<Gericht> generiereWochenplan (int anzahl, List<Kategorie> filterListe){
 		wochenplan.clear();
-		//TODO: filter einbauen, ueblergen ob das die Datenbank filtert
-		for (int i = 0; i < anzahl; i++) {
-			this.wochenplan.add(this.holeNeuesGericht());
-		}
+		this.wochenplan = verwalter.holeZufaelligMitFilter(anzahl, filterListe);
 		return this.wochenplan;
 	}
 	

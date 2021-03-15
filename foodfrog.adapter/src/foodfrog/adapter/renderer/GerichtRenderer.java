@@ -8,7 +8,6 @@ import foodfrog.kern.Kategorie;
 import foodfrog.kern.Zutat;
 
 public class GerichtRenderer{
-	private Calendar calendar = Calendar.getInstance();
 	private static GerichtRenderer gerichtRenderer = new GerichtRenderer();
 	private ZutatRenderer zutatRenderer = ZutatRenderer.holeInstanz();
 	
@@ -25,15 +24,14 @@ public class GerichtRenderer{
 	public String renderKategorien(Gericht gericht) {
 		String kategorienListe = "";
 		for (Kategorie kategorie: gericht.getKategorien()) {
-			kategorienListe += ","+kategorie.getKategorie();
+			kategorienListe += ","+kategorie.getBezeichnung();
 		}
 		
 		return kategorienListe;
 	}
 	
 	public String renderDauer(Gericht gericht) {
-		calendar.setTime(gericht.getAufwand());
-		return "Dauer: " + calendar.get(Calendar.MINUTE) + " min";
+		return "Dauer: " + gericht.getAufwand() + " min";
 	}
 	
 	public String renderZutaten(List<Zutat> zutaten) {

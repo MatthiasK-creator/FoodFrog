@@ -11,7 +11,7 @@ public interface EntiaetVerwalter {
 	public Gericht aendere(long id, Gericht gericht);
 	public Gericht hole(long id);
 	public Gericht holeZufaellig();
-	public Gericht holeZufaelligMitFilter(List<Kategorie> filter);
+	public List<Gericht> holeZufaelligMitFilter(int anzahl, List<Kategorie> filter);
 	public List<Gericht> holeAlleGerichte();
 
 }

@@ -4,29 +4,27 @@ import java.util.Date;
 import java.util.List;
 
 public class Gericht {
-	private long id;
+	private int id;
 	
 	private String name;
 	
 	private String beschreibung;
 	
-	private Date aufwand;
+	private int aufwand;
 	
 	private List<Bild> bilder;
 	private List<Zutat> zutaten;
 	private List<Kategorie> kategorien;
 	
 	
-	public Gericht(String name, String beschreibung, Date aufwand) {
+	public Gericht(int id, String name, String beschreibung, int aufwand) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.beschreibung = beschreibung;
 		this.aufwand = aufwand;
 	}
 	
-	public Gericht() {
-		super();
-	}
 
 	
 	
@@ -42,10 +40,10 @@ public class Gericht {
 	public void setBeschreibung(String beschreibung) {
 		this.beschreibung = beschreibung;
 	}
-	public Date getAufwand() {
+	public int getAufwand() {
 		return aufwand;
 	}
-	public void setAufwand(Date aufwand) {
+	public void setAufwand(int aufwand) {
 		this.aufwand = aufwand;
 	}
 
@@ -73,8 +71,13 @@ public class Gericht {
 		this.kategorien = kategorien;
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
+	}
+	
+	@Override
+	public String toString() {
+		return "ID: " + this.id + ", Name: " + this.name;
 	}
 	
 	

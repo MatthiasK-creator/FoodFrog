@@ -1,7 +1,7 @@
 package foodfrog.kern;
 
 public class Zutat {
-	
+	private int id;
 	private String bezeichnung;
 	private int menge;
 	private Einheit einheit;
@@ -12,8 +12,9 @@ public class Zutat {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Zutat(String bezeichnung, int menge) {
+	public Zutat(int id, String bezeichnung, int menge) {
 		super();
+		this.id = id;
 		this.bezeichnung = bezeichnung;
 		this.menge = menge;
 	}
@@ -40,6 +41,12 @@ public class Zutat {
 
 	public void setEinheit(Einheit einheit) {
 		this.einheit = einheit;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

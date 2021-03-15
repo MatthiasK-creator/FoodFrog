@@ -24,7 +24,7 @@ import foodfrog.adapter.beobachter.muster.Beobachter;
 import foodfrog.adapter.beobachter.muster.Subjekt;
 import foodfrog.adapter.regler.GerichtRegler;
 
-public class GerichtFormular extends JPanel implements Beobachter{
+public class GerichtFormular extends JPanel{
 
 	private JButton btnStartseite;
 	private JButton btnSpeichern;
@@ -104,8 +104,8 @@ public class GerichtFormular extends JPanel implements Beobachter{
 		btnSpeichern.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				
-				((GerichtRegler)GerichtFormular.this.subjekt).erstelleGericht(null);
+				((GerichtRegler)GerichtFormular.this.subjekt).benachrichtige();
+//				((GerichtRegler)GerichtFormular.this.subjekt).erstelleGericht(null);
 			}
 		});
 
@@ -254,8 +254,5 @@ public class GerichtFormular extends JPanel implements Beobachter{
 		return pnlNavigationsleiste;
 	}
 
-	public void aktualisiere(Object o) {
-		
-	}
 
 }

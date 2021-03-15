@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -15,18 +16,23 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import foodfrog.adapter.beobachter.muster.Beobachter;
 import foodfrog.adapter.beobachter.muster.Subjekt;
+import foodfrog.adapter.regler.GerichtRegler;
+import foodfrog.applikation.Gerichtverwaltung;
+import foodfrog.kern.Gericht;
 
 public class Hauptfenster extends JFrame implements Beobachter{
 
 	private JButton btnWochenplan;
 	private JButton btnEinkaufliste;
 	private JButton btnRezepterstellung;
+	private JButton btnAlleGerichte;
 	private JLabel label;
 	private JLabel copyright;
 	private JLabel foodfrogLogo;
@@ -37,6 +43,7 @@ public class Hauptfenster extends JFrame implements Beobachter{
 
 	public Hauptfenster(Subjekt subjekt) {
 		this.subjekt = subjekt;
+		this.subjekt.meldeAn(this);
 		hauptPanel = new JPanel();
 		hauptPanel.setLayout(new BorderLayout());
 
@@ -69,7 +76,7 @@ public class Hauptfenster extends JFrame implements Beobachter{
 		// Button Panel für die Buttons Wochenplan, Einklaufsliste, Rezepterstellung
 
 		buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(1, 3));
+		buttonPanel.setLayout(new GridLayout(1, 4));
 
 		// Button für Wochenplan
 
@@ -89,7 +96,6 @@ public class Hauptfenster extends JFrame implements Beobachter{
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-
 			}
 		});
 
@@ -136,7 +142,6 @@ public class Hauptfenster extends JFrame implements Beobachter{
 
 				String[] options = new String[] {};
 				GerichtFormular gerichtFormular = new GerichtFormular(Hauptfenster.this, Hauptfenster.this.subjekt);
-
 				JDialog	dialogFormular = new JDialog();
 				dialogFormular.setTitle("Gerichformular");
 				dialogFormular.add(gerichtFormular);
@@ -147,11 +152,28 @@ public class Hauptfenster extends JFrame implements Beobachter{
 			}
 		});
 
+		btnAlleGerichte = new JButton("Übersicht der Gerichte");
+		btnAlleGerichte.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Gericht> alleGerichte = (ArrayList<Gericht>) ((GerichtRegler)Hauptfenster.this.subjekt).holeAlleGerichte();
+				JDialog	dialogFormular = new JDialog();
+				dialogFormular.setTitle("Übersicht der Gerichte");
+				JList<Gericht> gerichtListe = new JList<Gericht>();
+				gerichtListe.setListData(alleGerichte.toArray(new Gericht[alleGerichte.size()]));
+				dialogFormular.add(gerichtListe);
+				dialogFormular.setSize(1700,1080);
+				// dialogFormular.pack();
+				dialogFormular.setVisible(true);
+
+			}
+		});
 		// ButtonPanel die Buttons hinzufügen
 
 		buttonPanel.add(btnWochenplan);
 		buttonPanel.add(btnEinkaufliste);
 		buttonPanel.add(btnRezepterstellung);
+		buttonPanel.add(btnAlleGerichte);
 
 		// Panel Mitte befüllen
 
@@ -181,7 +203,7 @@ public class Hauptfenster extends JFrame implements Beobachter{
 	}
 
 	public void aktualisiere(Object o) {
-		// TODO Auto-generated method stub
+		System.out.println("Gerichte haben sich geändert jetzt aktualisieren!!!");
 		
 	}
 
