@@ -58,6 +58,7 @@ public class GerichtFormular extends JPanel implements Beobachter{
 	private JFrame hauptfenster;
 	
 	private Subjekt subjekt;
+	private ZutatenMengenKomponente zutatenMengenKomponente;
 
 	public GerichtFormular(Hauptfenster hauptfenster, Subjekt subjekt) {
 		this.subjekt = subjekt;
@@ -227,16 +228,21 @@ public class GerichtFormular extends JPanel implements Beobachter{
 		pnlZutatenMengen.add(zutatenMengen);
 		pnlZutatenMengen.add(btnPlus);
 		pnlZutatenMengen.add(pnlZutatenMengenErstellung);
+		
+		// ZutatenMengenKomponenten Klasse hinzufügen
+		
+		zutatenMengenKomponente = new ZutatenMengenKomponente();
 
 		// Rezepterstellungs Komponenente
 
 		pnlErstellung = new JPanel();
-		pnlErstellung.setLayout(new GridLayout(4, 1));
+		pnlErstellung.setLayout(new GridLayout(5, 1));
 
 		pnlErstellung.add(pnlRezeptname);
 		pnlErstellung.add(pnlPortion);
 		pnlErstellung.add(pnlKategorie);
 		pnlErstellung.add(pnlZutatenMengen);
+		pnlErstellung.add(zutatenMengenKomponente);
 
 		this.setLayout(new BorderLayout());
 		this.add(pnlNavigationsleiste, BorderLayout.NORTH);
