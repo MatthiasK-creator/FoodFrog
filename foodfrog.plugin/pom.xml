@@ -5,6 +5,11 @@
   <version>0.0.1-SNAPSHOT</version>
   <dependencies>
 	  <dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>8.0.22</version>
+	 </dependency>
+	  <dependency>
   		  <artifactId>foodfrog.adapter</artifactId>
   		  <groupId>dhbw.tinf18b1.foodfrog.adapter</groupId>
 	  	  <scope>compile</scope>

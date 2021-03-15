@@ -20,7 +20,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class GerichtFormular extends JPanel {
+import foodfrog.adapter.beobachter.muster.Beobachter;
+import foodfrog.adapter.beobachter.muster.Subjekt;
+import foodfrog.adapter.regler.GerichtRegler;
+
+public class GerichtFormular extends JPanel implements Beobachter{
 
 	private JButton btnStartseite;
 	private JButton btnSpeichern;
@@ -52,9 +56,11 @@ public class GerichtFormular extends JPanel {
 	private JComboBox sonstigesbox;
 	private JComboBox einheitenbox;
 	private JFrame hauptfenster;
+	
+	private Subjekt subjekt;
 
-	public GerichtFormular(Hauptfenster hauptfenster) {
-		
+	public GerichtFormular(Hauptfenster hauptfenster, Subjekt subjekt) {
+		this.subjekt = subjekt;
 		this.hauptfenster = hauptfenster;
 
 		// Navigationsleiste konfigurieren
@@ -89,12 +95,18 @@ public class GerichtFormular extends JPanel {
 		btnSpeichern.setFont(new Font("Arial", Font.PLAIN, 20));
 		try {
 			Image imgSpeichern = ImageIO.read(getClass().getClassLoader().getResource("speichern.png"));
-			System.out.println(imgSpeichern);
 			imgSpeichern = imgSpeichern.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 			btnSpeichern.setIcon(new ImageIcon(imgSpeichern));
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
+		btnSpeichern.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				
+				((GerichtRegler)GerichtFormular.this.subjekt).erstelleGericht(null);
+			}
+		});
 
 		// Label Rezepterstellung
 
@@ -234,6 +246,10 @@ public class GerichtFormular extends JPanel {
 
 	public JPanel getNavigationsleiste() {
 		return pnlNavigationsleiste;
+	}
+
+	public void aktualisiere(Object o) {
+		
 	}
 
 }

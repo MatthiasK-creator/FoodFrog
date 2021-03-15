@@ -19,7 +19,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class Hauptfenster extends JFrame {
+import foodfrog.adapter.beobachter.muster.Beobachter;
+import foodfrog.adapter.beobachter.muster.Subjekt;
+
+public class Hauptfenster extends JFrame implements Beobachter{
 
 	private JButton btnWochenplan;
 	private JButton btnEinkaufliste;
@@ -30,9 +33,10 @@ public class Hauptfenster extends JFrame {
 	private JPanel hauptPanel;
 	private JPanel buttonPanel;
 	private GerichtFormular gerichtformular;
+	private Subjekt subjekt;
 
-	public Hauptfenster() {
-
+	public Hauptfenster(Subjekt subjekt) {
+		this.subjekt = subjekt;
 		hauptPanel = new JPanel();
 		hauptPanel.setLayout(new BorderLayout());
 
@@ -131,7 +135,7 @@ public class Hauptfenster extends JFrame {
 				// TODO Auto-generated method stub
 
 				String[] options = new String[] {};
-				GerichtFormular gerichtFormular = new GerichtFormular(Hauptfenster.this);
+				GerichtFormular gerichtFormular = new GerichtFormular(Hauptfenster.this, Hauptfenster.this.subjekt);
 
 				JDialog	dialogFormular = new JDialog();
 				dialogFormular.setTitle("Gerichformular");
@@ -174,6 +178,11 @@ public class Hauptfenster extends JFrame {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pack();
+	}
+
+	public void aktualisiere(Object o) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
