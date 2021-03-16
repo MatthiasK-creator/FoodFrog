@@ -17,12 +17,15 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import foodfrog.adapter.beobachter.muster.Beobachter;
 import foodfrog.adapter.beobachter.muster.Subjekt;
 import foodfrog.adapter.regler.GerichtRegler;
+import foodfrog.plugin.komponenten.GesamtZutatenMengenKomponente;
 
 public class GerichtFormular extends JPanel{
 
@@ -36,11 +39,14 @@ public class GerichtFormular extends JPanel{
 	private JPanel pnlPortion;
 	private JPanel pnlKategorie;
 	private JPanel pnlZutatenMengen;
+	private JPanel zutatenKomponente;
 
 	private JTextField tfRezeptname;
 	private JTextField tfPortion;
 	private JTextField tfMenge;
 	private JTextField tfZutatenname;
+	
+	private JTextArea taBeschreibung;
 
 	private JLabel rezept;
 	private JLabel rezeptname;
@@ -58,7 +64,7 @@ public class GerichtFormular extends JPanel{
 	private JFrame hauptfenster;
 	
 	private Subjekt subjekt;
-	private ZutatenMengenKomponente zutatenMengenKomponente;
+	private GesamtZutatenMengenKomponente gesamtZutatenMengenKomponente;
 
 	public GerichtFormular(Hauptfenster hauptfenster, Subjekt subjekt) {
 		this.subjekt = subjekt;
@@ -210,7 +216,12 @@ public class GerichtFormular extends JPanel{
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
-
+		btnPlus.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				GerichtFormular.this.gesamtZutatenMengenKomponente.fuegeMengenKomponenteHinzu();
+			}
+		});
 		JPanel pnlZutatenMengenErstellung = new JPanel();
 		pnlZutatenMengenErstellung.setLayout(new GridLayout(1, 3));
 
@@ -231,22 +242,35 @@ public class GerichtFormular extends JPanel{
 		
 		// ZutatenMengenKomponenten Klasse hinzufügen
 		
-		zutatenMengenKomponente = new ZutatenMengenKomponente();
+		gesamtZutatenMengenKomponente = new GesamtZutatenMengenKomponente();
 
+		this.zutatenKomponente = new JPanel(new BorderLayout());
+		this.zutatenKomponente.add(gesamtZutatenMengenKomponente, BorderLayout.CENTER);
 		// Rezepterstellungs Komponenente
+		JPanel pnlBeschreibung = new JPanel(new GridLayout(2,1,0,0));
+		JLabel lblZubereitung = new JLabel("Zubereitung");
+		this.taBeschreibung = new JTextArea();
+		JScrollPane scrollBeschreibung = new JScrollPane(this.taBeschreibung);
+		pnlBeschreibung.add(lblZubereitung);
+		pnlBeschreibung.add(scrollBeschreibung);
 
 		pnlErstellung = new JPanel();
-		pnlErstellung.setLayout(new GridLayout(5, 1));
+		pnlErstellung.setLayout(new GridLayout(6, 1,0,10));
 
 		pnlErstellung.add(pnlRezeptname);
 		pnlErstellung.add(pnlPortion);
 		pnlErstellung.add(pnlKategorie);
 		pnlErstellung.add(pnlZutatenMengen);
-		pnlErstellung.add(zutatenMengenKomponente);
+		pnlErstellung.add(zutatenKomponente);
+		pnlErstellung.add(pnlBeschreibung);
+		
+		
 
+		
+		JScrollPane scrollErstellung = new JScrollPane(pnlErstellung);
 		this.setLayout(new BorderLayout());
 		this.add(pnlNavigationsleiste, BorderLayout.NORTH);
-		this.add(pnlErstellung, BorderLayout.CENTER);
+		this.add(scrollErstellung, BorderLayout.CENTER);
 		this.setVisible(true);
 	}
 

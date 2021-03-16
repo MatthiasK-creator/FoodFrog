@@ -49,6 +49,17 @@ public class JdbcEntiaetVerwalter implements EntiaetVerwalter{
 			anweisung += "AND kategorien.bezeichnung = " + kategorie.getBezeichnung();
 		}
 		anweisung += " ORDER BY RANDOM() LIMIT 5";
+		ResultSet alleGerichte = this.verbinder.fuehreAnweisungAus(anweisung);
+		List<Gericht> listeMitAllenGerichten = new ArrayList<Gericht>();
+		try {
+			while(alleGerichte.next()) {
+				Gericht gericht = new Gericht(alleGerichte.getInt("id"), alleGerichte.getString("name"), alleGerichte.getString("beschreibung"), alleGerichte.getInt("aufwand"));
+				listeMitAllenGerichten.add(gericht);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 
