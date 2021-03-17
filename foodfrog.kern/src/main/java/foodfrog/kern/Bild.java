@@ -6,9 +6,13 @@ public class Bild {
 	private String titel;
 	private byte[] grafik;
 	
-	public Bild() {
-	}
 	
+	public Bild(int id, String titel, byte[] grafik) {
+		super();
+		this.id = id;
+		this.titel = titel;
+		this.grafik = grafik;
+	}
 	public String getTitel() {
 		return titel;
 	}

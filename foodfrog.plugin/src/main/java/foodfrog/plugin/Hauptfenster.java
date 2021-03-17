@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -159,6 +160,8 @@ public class Hauptfenster extends JFrame implements Beobachter{
 				ArrayList<Gericht> alleGerichte = (ArrayList<Gericht>) ((GerichtRegler)Hauptfenster.this.subjekt).holeAlleGerichte();
 				JDialog	dialogFormular = new JDialog();
 				dialogFormular.setTitle("Übersicht der Gerichte");
+				Icon icon = new ImageIcon(alleGerichte.get(0).getBilder().get(0).getGrafik());
+
 				JList<Gericht> gerichtListe = new JList<Gericht>();
 				gerichtListe.setListData(alleGerichte.toArray(new Gericht[alleGerichte.size()]));
 				dialogFormular.add(gerichtListe);

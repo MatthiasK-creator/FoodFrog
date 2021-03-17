@@ -12,6 +12,7 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 
 import foodfrog.applikation.EntiaetVerwalter;
+import foodfrog.kern.Bild;
 import foodfrog.kern.Einheit;
 import foodfrog.kern.Gericht;
 import foodfrog.kern.Kategorie;
@@ -54,6 +55,14 @@ public class JdbcEntiaetVerwalter implements EntiaetVerwalter{
 		try {
 			while(alleGerichte.next()) {
 				Gericht gericht = new Gericht(alleGerichte.getInt("id"), alleGerichte.getString("name"), alleGerichte.getString("beschreibung"), alleGerichte.getInt("aufwand"));
+				String bilderAnweisung = "SELECT * FROM bilder LEFT JOIN gerichte ON (bilder.gericht = " + gericht.getId() + ")";
+				ResultSet alleBilder = this.verbinder.fuehreAnweisungAus(bilderAnweisung);
+				List<Bild> bilderListe = new ArrayList<Bild>(); 
+				while(alleBilder.next()) {
+					Bild bild = new Bild(alleBilder.getInt("id"), alleBilder.getString("titel"), alleBilder.getBytes("grafik"));
+					bilderListe.add(bild);
+				}
+				gericht.setBilder(bilderListe);
 				listeMitAllenGerichten.add(gericht);
 			}
 		} catch (SQLException e) {
@@ -71,6 +80,14 @@ public class JdbcEntiaetVerwalter implements EntiaetVerwalter{
 		try {
 			while(alleGerichte.next()) {
 				Gericht gericht = new Gericht(alleGerichte.getInt("id"), alleGerichte.getString("name"), alleGerichte.getString("beschreibung"), alleGerichte.getInt("aufwand"));
+				String bilderAnweisung = "SELECT * FROM bilder LEFT JOIN gerichte ON (bilder.gericht = " + gericht.getId() + ")";
+				ResultSet alleBilder = this.verbinder.fuehreAnweisungAus(bilderAnweisung);
+				List<Bild> bilderListe = new ArrayList<Bild>(); 
+				while(alleBilder.next()) {
+					Bild bild = new Bild(alleBilder.getInt("id"), alleBilder.getString("titel"), alleBilder.getBytes("grafik"));
+					bilderListe.add(bild);
+				}
+				gericht.setBilder(bilderListe);
 				listeMitAllenGerichten.add(gericht);
 			}
 		} catch (SQLException e) {
