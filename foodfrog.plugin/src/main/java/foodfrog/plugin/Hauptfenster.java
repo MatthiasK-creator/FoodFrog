@@ -81,7 +81,7 @@ public class Hauptfenster extends JFrame implements Beobachter{
 
 		// Button für Wochenplan
 
-		btnWochenplan = new JButton("zum Wochenplan");
+		btnWochenplan = new JButton(" zum Wochenplan");
 		btnWochenplan.setFont(new Font("Arial", Font.PLAIN, 20));
 
 		try {
@@ -94,37 +94,26 @@ public class Hauptfenster extends JFrame implements Beobachter{
 		}
 
 		btnWochenplan.addActionListener(new ActionListener() {
+			
+			
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-			}
-		});
-
-		// Button für Einkaufsliste
-
-		btnEinkaufliste = new JButton("zur Einkaufsliste");
-		btnEinkaufliste.setFont(new Font("Arial", Font.PLAIN, 20));
-
-		try {
-			Image imgEinkaufsliste = ImageIO.read(getClass().getClassLoader().getResource("einkaufen.png"));
-			System.out.println(imgEinkaufsliste);
-			imgEinkaufsliste = imgEinkaufsliste.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
-			btnEinkaufliste.setIcon(new ImageIcon(imgEinkaufsliste));
-		} catch (Exception ex) {
-			System.out.println(ex);
-		}
-
-		btnEinkaufliste.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
+				
+				String[] options = new String[] {};
+				WochenplanKomponente wochenplanKomponente = new WochenplanKomponente();
+				JDialog	dialogWochenplan = new JDialog();
+				dialogWochenplan.setTitle("Gerichformular");
+				dialogWochenplan.add(wochenplanKomponente);
+				dialogWochenplan.setSize(1700,1080);
+				// dialogFormular.pack();
+				dialogWochenplan.setVisible(true);
 			}
 		});
 
 		// Button für Rezepterstellung
 
-		btnRezepterstellung = new JButton("zur Rezepterstellung");
+		btnRezepterstellung = new JButton(" zur Rezepterstellung");
 		btnRezepterstellung.setFont(new Font("Arial", Font.PLAIN, 20));
 
 		try {
@@ -144,7 +133,7 @@ public class Hauptfenster extends JFrame implements Beobachter{
 				String[] options = new String[] {};
 				GerichtFormular gerichtFormular = new GerichtFormular(Hauptfenster.this, Hauptfenster.this.subjekt);
 				JDialog	dialogFormular = new JDialog();
-				dialogFormular.setTitle("Gerichformular");
+				dialogFormular.setTitle("Wochenplan");
 				dialogFormular.add(gerichtFormular);
 				dialogFormular.setSize(1700,1080);
 				// dialogFormular.pack();
@@ -152,8 +141,21 @@ public class Hauptfenster extends JFrame implements Beobachter{
 				
 			}
 		});
+		
+		// Button für die Übersicht aller Gerichte
 
-		btnAlleGerichte = new JButton("Übersicht der Gerichte");
+		btnAlleGerichte = new JButton(" zur Übersicht der Gerichte");
+		btnAlleGerichte.setFont(new Font("Arial", Font.PLAIN, 20));
+		
+		try {
+			Image imgAlleGerichte = ImageIO.read(getClass().getClassLoader().getResource("menu.png"));
+			System.out.println(imgAlleGerichte);
+			imgAlleGerichte = imgAlleGerichte.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+			btnAlleGerichte.setIcon(new ImageIcon(imgAlleGerichte));
+		} catch (Exception ex) {
+			System.out.println(ex);
+		} 
+		
 		btnAlleGerichte.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -174,7 +176,6 @@ public class Hauptfenster extends JFrame implements Beobachter{
 		// ButtonPanel die Buttons hinzufügen
 
 		buttonPanel.add(btnWochenplan);
-		buttonPanel.add(btnEinkaufliste);
 		buttonPanel.add(btnRezepterstellung);
 		buttonPanel.add(btnAlleGerichte);
 

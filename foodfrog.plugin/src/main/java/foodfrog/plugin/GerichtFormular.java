@@ -27,11 +27,12 @@ import foodfrog.adapter.beobachter.muster.Subjekt;
 import foodfrog.adapter.regler.GerichtRegler;
 import foodfrog.plugin.komponenten.GesamtZutatenMengenKomponente;
 
-public class GerichtFormular extends JPanel{
+public class GerichtFormular extends JPanel {
 
 	private JButton btnStartseite;
 	private JButton btnSpeichern;
 	private JButton btnPlus;
+	private JButton btnImgUpload;
 
 	private JPanel pnlNavigationsleiste;
 	private JPanel pnlErstellung;
@@ -45,7 +46,8 @@ public class GerichtFormular extends JPanel{
 	private JTextField tfPortion;
 	private JTextField tfMenge;
 	private JTextField tfZutatenname;
-	
+	private JTextField tfZubZeit;
+
 	private JTextArea taBeschreibung;
 
 	private JLabel rezept;
@@ -62,7 +64,7 @@ public class GerichtFormular extends JPanel{
 	private JComboBox sonstigesbox;
 	private JComboBox einheitenbox;
 	private JFrame hauptfenster;
-	
+
 	private Subjekt subjekt;
 	private GesamtZutatenMengenKomponente gesamtZutatenMengenKomponente;
 
@@ -73,10 +75,10 @@ public class GerichtFormular extends JPanel{
 		// Navigationsleiste konfigurieren
 
 		pnlNavigationsleiste = new JPanel();
-		pnlNavigationsleiste.setLayout(new GridLayout(1, 4));
+		pnlNavigationsleiste.setLayout(new GridLayout(1, 5));
 
 		// Button Startseite
-		btnStartseite = new JButton("Startseite");
+		btnStartseite = new JButton("  Startseite");
 		btnStartseite.setFont(new Font("Arial", Font.PLAIN, 20));
 		try {
 			Image imgStartseite = ImageIO.read(getClass().getClassLoader().getResource("gingerbread.png"));
@@ -98,7 +100,7 @@ public class GerichtFormular extends JPanel{
 		});
 
 		// Button Speichern
-		btnSpeichern = new JButton("Speichern");
+		btnSpeichern = new JButton("  Speichern");
 		btnSpeichern.setFont(new Font("Arial", Font.PLAIN, 20));
 		try {
 			Image imgSpeichern = ImageIO.read(getClass().getClassLoader().getResource("speichern.png"));
@@ -108,9 +110,9 @@ public class GerichtFormular extends JPanel{
 			System.out.println(ex);
 		}
 		btnSpeichern.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
-				((GerichtRegler)GerichtFormular.this.subjekt).benachrichtige();
+				((GerichtRegler) GerichtFormular.this.subjekt).benachrichtige();
 //				((GerichtRegler)GerichtFormular.this.subjekt).erstelleGericht(null);
 			}
 		});
@@ -133,6 +135,18 @@ public class GerichtFormular extends JPanel{
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
+		
+		btnImgUpload = new JButton("  Hochladen von Bildern");
+		btnImgUpload.setFont(new Font("Arial", Font.PLAIN, 20));
+		
+		try {
+			Image imgUpload = ImageIO.read(getClass().getClassLoader().getResource("upload.png"));
+			System.out.println(imgUpload);
+			imgUpload = imgUpload.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+			btnImgUpload.setIcon(new ImageIcon(imgUpload));
+		} catch (Exception ex) {
+			System.out.println(ex);
+		} 
 
 		// Zum Panel Navigationsleiste hinzufügen
 
@@ -140,6 +154,7 @@ public class GerichtFormular extends JPanel{
 		pnlNavigationsleiste.add(btnSpeichern);
 		pnlNavigationsleiste.add(rezept);
 		pnlNavigationsleiste.add(logoRezeptFrog);
+		pnlNavigationsleiste.add(btnImgUpload);
 
 		// Panel Rezeptname
 
@@ -217,7 +232,7 @@ public class GerichtFormular extends JPanel{
 			System.out.println(ex);
 		}
 		btnPlus.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
 				GerichtFormular.this.gesamtZutatenMengenKomponente.fuegeMengenKomponenteHinzu();
 			}
@@ -239,34 +254,42 @@ public class GerichtFormular extends JPanel{
 		pnlZutatenMengen.add(zutatenMengen);
 		pnlZutatenMengen.add(btnPlus);
 		pnlZutatenMengen.add(pnlZutatenMengenErstellung);
-		
+
 		// ZutatenMengenKomponenten Klasse hinzufügen
-		
+
 		gesamtZutatenMengenKomponente = new GesamtZutatenMengenKomponente();
 
 		this.zutatenKomponente = new JPanel(new BorderLayout());
 		this.zutatenKomponente.add(gesamtZutatenMengenKomponente, BorderLayout.CENTER);
-		// Rezepterstellungs Komponenente
-		JPanel pnlBeschreibung = new JPanel(new GridLayout(2,1,0,0));
+		
+		// Zubereitungsbeschreibung
+
+		JPanel pnlBeschreibung = new JPanel(new GridLayout(4, 1, 0, 0));
+
 		JLabel lblZubereitung = new JLabel("Zubereitung");
 		this.taBeschreibung = new JTextArea();
+		
+		JLabel lblZubZeit = new JLabel("Zubereitungszeit (min):");
+		tfZubZeit = new JTextField();	
+		
+
+		
 		JScrollPane scrollBeschreibung = new JScrollPane(this.taBeschreibung);
 		pnlBeschreibung.add(lblZubereitung);
 		pnlBeschreibung.add(scrollBeschreibung);
-
+		pnlBeschreibung.add(lblZubZeit);
+		pnlBeschreibung.add(tfZubZeit);
+		
+		// Rezepterstellungs Komponenente
 		pnlErstellung = new JPanel();
-		pnlErstellung.setLayout(new GridLayout(6, 1,0,10));
-
+		pnlErstellung.setLayout(new GridLayout(6, 1, 0, 10));
 		pnlErstellung.add(pnlRezeptname);
 		pnlErstellung.add(pnlPortion);
 		pnlErstellung.add(pnlKategorie);
 		pnlErstellung.add(pnlZutatenMengen);
 		pnlErstellung.add(zutatenKomponente);
 		pnlErstellung.add(pnlBeschreibung);
-		
-		
 
-		
 		JScrollPane scrollErstellung = new JScrollPane(pnlErstellung);
 		this.setLayout(new BorderLayout());
 		this.add(pnlNavigationsleiste, BorderLayout.NORTH);
@@ -277,6 +300,5 @@ public class GerichtFormular extends JPanel{
 	public JPanel getNavigationsleiste() {
 		return pnlNavigationsleiste;
 	}
-
 
 }
