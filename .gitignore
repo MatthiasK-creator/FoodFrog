@@ -7,4 +7,6 @@ foodfrog.adapter/target
 foodfrog.kern/target
 foodfrog.application/target
 foodfrog.plugin/target
+foodfrog.starter/target
+foodfrog.starter/foodfrog.db
 
