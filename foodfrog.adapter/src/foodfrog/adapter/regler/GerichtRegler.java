@@ -6,7 +6,9 @@ import java.util.List;
 import foodfrog.adapter.beobachter.muster.Beobachter;
 import foodfrog.adapter.beobachter.muster.Ereignis;
 import foodfrog.adapter.beobachter.muster.Subjekt;
+import foodfrog.applikation.EntiaetVerwalter;
 import foodfrog.applikation.Gerichtverwaltung;
+import foodfrog.kern.Entitaet;
 import foodfrog.kern.Gericht;
 import foodfrog.kern.Kategorie;
 
@@ -31,11 +33,11 @@ public class GerichtRegler implements Subjekt{
 	}
 	
 	public boolean loescheGericht(long id) {
-		return this.verwaltung.loescheGericht(id);
+		return this.verwaltung.loescheGericht(Gericht.class, id);
 	}
 	
-	public List<Gericht> holeAlleGerichte(){
-		return this.verwaltung.holeAlleGerichte();
+	public List<Gericht> holeAlle(){
+		return this.verwaltung.holeAlle();
 	}
 
 
@@ -61,7 +63,7 @@ public class GerichtRegler implements Subjekt{
 	@Override
 	public void benachrichtige() {
 		for (Beobachter beobachter : beobachter) {
-			beobachter.aktualisiere(this.verwaltung.holeAlleGerichte());
+			beobachter.aktualisiere(this.verwaltung.holeAlle());
 		}
 	}
 

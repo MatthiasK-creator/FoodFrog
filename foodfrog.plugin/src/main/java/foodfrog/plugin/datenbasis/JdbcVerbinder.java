@@ -56,8 +56,24 @@ public class JdbcVerbinder {
 				}
 			}
 		});
-		this.erstelleDatenbankSchema();
-		this.erstelleTestDaten();
+		this.pruefeObDatenbankExistiert();
+	}
+	
+	private void pruefeObDatenbankExistiert()
+	{
+		try (ResultSet rs = fuehreAnweisungAus("SELECT Count(*) FROM sqlite_schema WHERE type='table' ORDER BY name"))
+		{
+			final int numberOfTables = rs.getInt(1);
+			if (numberOfTables <= 0) {
+				this.erstelleDatenbankSchema();
+				this.erstelleTestDaten();
+			}
+		}
+		catch (final SQLException e)
+		{
+			e.printStackTrace();
+		}
+
 	}
 
 
@@ -140,7 +156,7 @@ public class JdbcVerbinder {
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Haselnüsse', 50, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=1))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Gewürmischung Hello Grünzeug', 1, (SELECT id FROM einheiten WHERE einheit = 'Packung'), (SELECT id FROM gerichte WHERE id=1))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('geriebener Hartkäse', 50, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=1))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('geriebener Hartkäse', 1, (SELECT id FROM einheiten WHERE einheit = 'Zehe'), (SELECT id FROM gerichte WHERE id=1))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Knoblauch', 1, (SELECT id FROM einheiten WHERE einheit = 'Zehe'), (SELECT id FROM gerichte WHERE id=1))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Schalotte', 1, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=1))"
 		};
 		for (String string : testDatenAnweisungen) {

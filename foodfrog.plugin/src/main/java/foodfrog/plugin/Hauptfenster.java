@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -26,7 +27,9 @@ import foodfrog.adapter.beobachter.muster.Beobachter;
 import foodfrog.adapter.beobachter.muster.Subjekt;
 import foodfrog.adapter.regler.GerichtRegler;
 import foodfrog.applikation.Gerichtverwaltung;
+import foodfrog.kern.Entitaet;
 import foodfrog.kern.Gericht;
+import foodfrog.kern.Zutat;
 
 public class Hauptfenster extends JFrame implements Beobachter{
 
@@ -159,11 +162,9 @@ public class Hauptfenster extends JFrame implements Beobachter{
 		btnAlleGerichte.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				ArrayList<Gericht> alleGerichte = (ArrayList<Gericht>) ((GerichtRegler)Hauptfenster.this.subjekt).holeAlleGerichte();
+				ArrayList<Gericht> alleGerichte = (ArrayList<Gericht>) ((GerichtRegler)Hauptfenster.this.subjekt).holeAlle();
 				JDialog	dialogFormular = new JDialog();
 				dialogFormular.setTitle("Übersicht der Gerichte");
-				Icon icon = new ImageIcon(alleGerichte.get(0).getBilder().get(0).getGrafik());
-
 				JList<Gericht> gerichtListe = new JList<Gericht>();
 				gerichtListe.setListData(alleGerichte.toArray(new Gericht[alleGerichte.size()]));
 				dialogFormular.add(gerichtListe);

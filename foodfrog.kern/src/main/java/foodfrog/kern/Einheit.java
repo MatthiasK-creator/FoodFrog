@@ -2,10 +2,10 @@ package foodfrog.kern;
 
 public enum Einheit {
 	
-	GRAMM("g"), MILLILITER("ml"), KILOGRAMM("kg"), TEELOEFFEL("TL"), ESSLOEFFEL("EL"), LITER("l"),
-	MESSERSPITZE("Messerspitze"), TASSE("Tasse"), SPRITZER("Spritzer"), BECHER("Becher"), BUND("Bund"), DOSE("Dose"),
-	FLASCHE("Flasche"), GLAS("Glas"), PACKUNG("Packung"), STUECK("Stück"), TROPFEN("Tropfen"), WÜRFEL("Würfel"),
-	ZEHE("Zehe");
+	g("g"), ml("ml"), kg("kg"), TL("TL"), EL("EL"), l("l"),
+	Messerspitze("Messerspitze"), Tasse("Tasse"), Spritzer("Spritzer"), Becher("Becher"), Bund("Bund"), Dose("Dose"),
+	Flasche("Flasche"), Glas("Glas"), Packung("Packung"), Stück("Stück"), Tropfen("Tropfen"), Würfel("Würfel"),
+	Zehe("Zehe");
 
 	public String einheit;
 

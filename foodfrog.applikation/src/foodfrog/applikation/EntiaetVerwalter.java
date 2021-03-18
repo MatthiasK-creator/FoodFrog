@@ -4,14 +4,15 @@ import java.util.List;
 
 import foodfrog.kern.Gericht;
 import foodfrog.kern.Kategorie;
+import foodfrog.kern.Entitaet;
 
 public interface EntiaetVerwalter {
-	public Gericht erstellle(Gericht gericht);
-	public boolean loesche(long id);
-	public Gericht aendere(long id, Gericht gericht);
-	public Gericht hole(long id);
-	public Gericht holeZufaellig();
+	public Entitaet erstellle(Class c, Entitaet gericht);
+	public boolean loesche(Class c, long id);
+	public Entitaet aendere(Class c, long id, Entitaet gericht);
+	public Entitaet hole(Class c, long id);
+	public Entitaet holeZufaellig(Class c);
+	public List<Entitaet> holeAlle(Class c);
+	
 	public List<Gericht> holeZufaelligMitFilter(int anzahl, List<Kategorie> filter);
-	public List<Gericht> holeAlleGerichte();
-
 }

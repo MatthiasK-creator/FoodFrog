@@ -14,33 +14,32 @@ import org.apache.commons.io.IOUtils;
 import foodfrog.applikation.EntiaetVerwalter;
 import foodfrog.kern.Bild;
 import foodfrog.kern.Einheit;
+import foodfrog.kern.Entitaet;
 import foodfrog.kern.Gericht;
 import foodfrog.kern.Kategorie;
+import foodfrog.kern.Zutat;
 
-public class JdbcEntiaetVerwalter implements EntiaetVerwalter{
-	
+public class JdbcEntiaetVerwalter implements EntiaetVerwalter {
+
 	private JdbcVerbinder verbinder;
+
 	public JdbcEntiaetVerwalter() {
 		verbinder = JdbcVerbinder.holeInstanz();
 	}
 
-	public Gericht erstellle(Gericht gericht) {
+	public Entitaet erstellle(Class c, Entitaet gericht) {
 		return null;
 	}
 
-	public boolean loesche(long id) {
+	public boolean loesche(Class c, long id) {
 		return false;
 	}
 
-	public Gericht aendere(long id, Gericht gericht) {
+	public Entitaet aendere(Class c, long id, Entitaet gericht) {
 		return null;
 	}
 
-	public Gericht hole(long id) {
-		return null;
-	}
-
-	public Gericht holeZufaellig() {
+	public Entitaet hole(Class c, long id) {
 		return null;
 	}
 
@@ -53,13 +52,16 @@ public class JdbcEntiaetVerwalter implements EntiaetVerwalter{
 		ResultSet alleGerichte = this.verbinder.fuehreAnweisungAus(anweisung);
 		List<Gericht> listeMitAllenGerichten = new ArrayList<Gericht>();
 		try {
-			while(alleGerichte.next()) {
-				Gericht gericht = new Gericht(alleGerichte.getInt("id"), alleGerichte.getString("name"), alleGerichte.getString("beschreibung"), alleGerichte.getInt("aufwand"));
-				String bilderAnweisung = "SELECT * FROM bilder LEFT JOIN gerichte ON (bilder.gericht = " + gericht.getId() + ")";
+			while (alleGerichte.next()) {
+				Gericht gericht = new Gericht(alleGerichte.getInt("id"), alleGerichte.getString("name"),
+						alleGerichte.getString("beschreibung"), alleGerichte.getInt("aufwand"));
+				String bilderAnweisung = "SELECT * FROM bilder LEFT JOIN gerichte ON (bilder.gericht = "
+						+ gericht.getId() + ")";
 				ResultSet alleBilder = this.verbinder.fuehreAnweisungAus(bilderAnweisung);
-				List<Bild> bilderListe = new ArrayList<Bild>(); 
-				while(alleBilder.next()) {
-					Bild bild = new Bild(alleBilder.getInt("id"), alleBilder.getString("titel"), alleBilder.getBytes("grafik"));
+				List<Bild> bilderListe = new ArrayList<Bild>();
+				while (alleBilder.next()) {
+					Bild bild = new Bild(alleBilder.getInt("id"), alleBilder.getString("titel"),
+							alleBilder.getBytes("grafik"));
 					bilderListe.add(bild);
 				}
 				gericht.setBilder(bilderListe);
@@ -72,31 +74,76 @@ public class JdbcEntiaetVerwalter implements EntiaetVerwalter{
 		return null;
 	}
 
-	public List<Gericht> holeAlleGerichte() {
-		String anweisung = "SELECT * FROM gerichte";
-		ResultSet alleGerichte = this.verbinder.fuehreAnweisungAus(anweisung);
-		List<Gericht> listeMitAllenGerichten = new ArrayList<Gericht>();
-		
-		try {
-			while(alleGerichte.next()) {
-				Gericht gericht = new Gericht(alleGerichte.getInt("id"), alleGerichte.getString("name"), alleGerichte.getString("beschreibung"), alleGerichte.getInt("aufwand"));
-				String bilderAnweisung = "SELECT * FROM bilder LEFT JOIN gerichte ON (bilder.gericht = " + gericht.getId() + ")";
-				ResultSet alleBilder = this.verbinder.fuehreAnweisungAus(bilderAnweisung);
-				List<Bild> bilderListe = new ArrayList<Bild>(); 
-				while(alleBilder.next()) {
-					Bild bild = new Bild(alleBilder.getInt("id"), alleBilder.getString("titel"), alleBilder.getBytes("grafik"));
-					bilderListe.add(bild);
+	public List<Entitaet> holeAlle(Class c) {
+		if (c == Kategorie.class) {
+			String anweisung = "SELECT * FROM kategorien";
+
+		} else if (c == Gericht.class) {
+			String anweisung = "SELECT * FROM gerichte";
+			ResultSet alleGerichte = this.verbinder.fuehreAnweisungAus(anweisung);
+			List<Entitaet> listeMitAllenGerichten = new ArrayList();
+			try {
+				while (alleGerichte.next()) {
+					listeMitAllenGerichten.add(this.erstelleGericht(alleGerichte));
 				}
-				gericht.setBilder(bilderListe);
-				listeMitAllenGerichten.add(gericht);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			return listeMitAllenGerichten;
 		}
-		return listeMitAllenGerichten;
+		return new ArrayList<Entitaet>();
+
 	}
 
-	
-	
+	private Gericht erstelleGericht(ResultSet alleGerichte) throws SQLException {
+		Gericht gericht = null;
+		gericht = new Gericht(alleGerichte.getInt("id"), alleGerichte.getString("name"),
+				alleGerichte.getString("beschreibung"), alleGerichte.getInt("aufwand"));
+		
+		// Hole alle Bilder
+		String bilderAnweisung = "SELECT * FROM bilder, gerichte WHERE gerichte.id = " + gericht.getId();
+		ResultSet alleBilder = this.verbinder.fuehreAnweisungAus(bilderAnweisung);
+		List<Bild> bilderListe = new ArrayList<Bild>();
+		while (alleBilder.next()) {
+			Bild bild = new Bild(alleBilder.getInt("id"), alleBilder.getString("titel"), alleBilder.getBytes("grafik"));
+			bilderListe.add(bild);
+		}
+		gericht.setBilder(bilderListe);
+		
+		// Hole alle Kategorien
+		String kategorieAnweisung = "SELECT * FROM kategorien, gerichte WHERE kategorien.gericht = "+ gericht.getId();
+		ResultSet alleKategorien = this.verbinder.fuehreAnweisungAus(kategorieAnweisung);
+		List<Kategorie> kategorienListe = new ArrayList<Kategorie>();
+		while (alleKategorien.next()) {
+			Kategorie kategorie = new Kategorie(alleKategorien.getInt("id"), alleKategorien.getString("bezeichnung"));
+			kategorienListe.add(kategorie);
+		}
+		gericht.setKategorien(kategorienListe);
+
+		//Hole alle Zutaten
+		String zutatenAnweisung = "SELECT * FROM zutaten, gerichte WHERE zutaten.gericht = " + gericht.getId();
+		ResultSet alleZutaten = this.verbinder.fuehreAnweisungAus(zutatenAnweisung);
+		List<Zutat> zutatenListe = new ArrayList<Zutat>();
+		while (alleZutaten.next()) {
+			Zutat zutat = new Zutat(alleZutaten.getInt("id"), alleZutaten.getString("bezeichnung"), alleZutaten.getInt("menge"));
+			String einheitenAnweisung = "SELECT * FROM einheiten, zutaten WHERE einheiten.id = zutaten.id AND zutaten.id = " + zutat.getId();
+			this.verbinder.fuehreAnweisungAus(einheitenAnweisung);
+			ResultSet alleEinheiten = this.verbinder.fuehreAnweisungAus(einheitenAnweisung);
+			while(alleEinheiten.next()) {
+				zutat.setEinheit(Einheit.valueOf(alleEinheiten.getString("einheit")));
+			}
+			zutatenListe.add(zutat);
+		}
+		gericht.setZutaten(zutatenListe);
+		
+		return gericht;
+
+	}
+
+	public Entitaet holeZufaellig(Class c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

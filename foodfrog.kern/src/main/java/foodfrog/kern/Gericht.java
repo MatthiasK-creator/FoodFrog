@@ -3,8 +3,7 @@ package foodfrog.kern;
 import java.util.Date;
 import java.util.List;
 
-public class Gericht {
-	private int id;
+public class Gericht extends Entitaet{
 	
 	private String name;
 	
@@ -18,8 +17,7 @@ public class Gericht {
 	
 	
 	public Gericht(int id, String name, String beschreibung, int aufwand) {
-		super();
-		this.id = id;
+		super(id);
 		this.name = name;
 		this.beschreibung = beschreibung;
 		this.aufwand = aufwand;
@@ -71,13 +69,10 @@ public class Gericht {
 		this.kategorien = kategorien;
 	}
 
-	public int getId() {
-		return id;
-	}
 	
 	@Override
 	public String toString() {
-		return "ID: " + this.id + ", Name: " + this.name;
+		return "ID: " + this.getId() + ", Name: " + this.name;
 	}
 	
 	

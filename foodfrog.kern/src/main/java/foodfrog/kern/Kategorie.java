@@ -1,19 +1,11 @@
 package foodfrog.kern;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Kategorie {
-	private int id;
+public class Kategorie extends Entitaet {
 	private String bezeichnung;
 	
-	public Kategorie() {
-		super();
-	}
 
 	public Kategorie(int id, String bezeichnung) {
-		super();
-		this.id = id;
+		super(id);
 		this.bezeichnung = bezeichnung;
 	}
 
@@ -23,9 +15,6 @@ public class Kategorie {
 
 	public void setBezeichnung(String bezeichnung) {
 		this.bezeichnung = bezeichnung;
-	}
-	public int getId() {
-		return id;
 	}
 	
 

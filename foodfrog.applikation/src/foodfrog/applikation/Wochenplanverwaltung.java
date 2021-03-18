@@ -51,9 +51,9 @@ public class Wochenplanverwaltung {
 	}
 
 	private Gericht holeNeuesGericht() {
-		Gericht gericht = this.verwalter.holeZufaellig();
+		Gericht gericht = (Gericht) this.verwalter.holeZufaellig(Gericht.class);
 		while(this.wochenplan.contains(gericht)) {
-			gericht = this.verwalter.holeZufaellig();
+			gericht = (Gericht) this.verwalter.holeZufaellig(Gericht.class);
 		}
 		return gericht;
 	}

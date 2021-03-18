@@ -1,9 +1,11 @@
 package foodfrog.applikation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 
+import foodfrog.kern.Entitaet;
 import foodfrog.kern.Gericht;
 
 public class Gerichtverwaltung {
@@ -14,9 +16,9 @@ public class Gerichtverwaltung {
 		this.verwalter = verwalter;
 	}
 	
-	public boolean loescheGericht(long id){
-		if(this.verwalter.hole(id) != null) {
-			this.verwalter.loesche(id);
+	public boolean loescheGericht(Class c, long id){
+		if(this.verwalter.hole(c, id) != null) {
+			this.verwalter.loesche(c, id);
 			return true;
 		}
 		else {
@@ -25,19 +27,24 @@ public class Gerichtverwaltung {
 	}
 	
 	public Gericht aendereGericht(long id, Gericht gericht){
-		return this.verwalter.aendere(id, gericht);
+		return (Gericht) this.verwalter.aendere(Gericht.class, id, gericht);
 	}
 	
 	public Gericht erstelleGericht(Gericht gericht){
-		return this.verwalter.erstellle(gericht);
+		return (Gericht) this.verwalter.erstellle(Gericht.class, gericht);
 	}
 	
 	public Gericht holeGericht(long id){
-		return this.verwalter.hole(id);
+		return (Gericht) this.verwalter.hole(Gericht.class, id);
 	}
 	
-	public List<Gericht> holeAlleGerichte() {
-		return this.verwalter.holeAlleGerichte();
+	public List<Gericht> holeAlle() {
+		List<Gericht> alleGerichte = new ArrayList<Gericht>();
+		for (Entitaet entitaet : this.verwalter.holeAlle(Gericht.class)) {
+			alleGerichte.add((Gericht)entitaet);
+		}
+
+		return alleGerichte ;
 	}
 
 }
