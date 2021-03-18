@@ -13,8 +13,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import foodfrog.kern.Wochentag;
 
 public class WochenplanKomponente extends JPanel {
 
@@ -28,7 +31,7 @@ public class WochenplanKomponente extends JPanel {
 	private JButton btnEinkaufsliste;
 	private Hauptfenster hauptfenster;
 	
-	private JComboBox wochentagbox;
+	private JList<Wochentag> wochentagListe;
 
 	public WochenplanKomponente() {
 
@@ -104,14 +107,18 @@ public class WochenplanKomponente extends JPanel {
 		
 		// Combobox mit Auswahl von Wochentagen
 		
-		wochentagbox = new JComboBox();
+		wochentagListe = new JList(Wochentag.values());
+		wochentagListe.setVisibleRowCount(Wochentag.values().length);
+		
+		// Navigationsleiste alles hinzufügen
+		
 
 		pnlWPNavigation.add(btnNeueRezepte);
 		pnlWPNavigation.add(btnStartseite);
 		pnlWPNavigation.add(btnEinkaufsliste);
 		pnlWPNavigation.add(lblwochenplan);
 		pnlWPNavigation.add(foodfrogLogo);
-		pnlWPNavigation.add(wochentagbox);
+		pnlWPNavigation.add(wochentagListe);
 
 		// Alles hinzufügen
 
