@@ -1,10 +1,14 @@
 package foodfrog.plugin;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
@@ -15,9 +19,11 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import foodfrog.kern.Wochentag;
+import foodfrog.plugin.komponenten.GerichtKomponente;
 
 public class WochenplanKomponente extends JPanel {
 
@@ -25,13 +31,17 @@ public class WochenplanKomponente extends JPanel {
 	private JLabel foodfrogLogo;
 
 	private JPanel pnlWPNavigation;
+	private JPanel pnlGerichtKomponente;
 
 	private JButton btnNeueRezepte;
 	private JButton btnStartseite;
 	private JButton btnEinkaufsliste;
 	private Hauptfenster hauptfenster;
 	
+	
 	private JList<Wochentag> wochentagListe;
+	
+	private ArrayList<GerichtKomponente> gerichtKomponenten;
 
 	public WochenplanKomponente() {
 
@@ -119,10 +129,27 @@ public class WochenplanKomponente extends JPanel {
 		pnlWPNavigation.add(lblwochenplan);
 		pnlWPNavigation.add(foodfrogLogo);
 		pnlWPNavigation.add(wochentagListe);
+		
+		// Panel Gerichtkomponente
+		
+		pnlGerichtKomponente = new JPanel();
+		pnlGerichtKomponente.setLayout(new GridLayout(7,1));
+		
+		GerichtKomponente gerichtKomp = new GerichtKomponente();
+		GerichtKomponente gerichtKomp2 = new GerichtKomponente();
+		
+		pnlGerichtKomponente.add(gerichtKomp);
+		pnlGerichtKomponente.add(gerichtKomp2);
+		
+		
 
 		// Alles hinzufügen
+		
+		JScrollPane scrollGerichte = new JScrollPane(pnlGerichtKomponente);
 
-		this.add(pnlWPNavigation);
+		this.setLayout(new BorderLayout());
+		this.add(pnlWPNavigation, BorderLayout.NORTH);
+		this.add(scrollGerichte, BorderLayout.CENTER);
 		this.setVisible(true);
 
 	}
