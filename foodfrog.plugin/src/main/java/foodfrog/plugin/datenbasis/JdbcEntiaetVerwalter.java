@@ -80,7 +80,6 @@ public class JdbcEntiaetVerwalter implements EntiaetVerwalter {
 		}
 		anweisung += " GROUP BY gerichte.id";
 		anweisung += " ORDER BY RANDOM() LIMIT " + anzahl;
-		System.out.println("ANWEISUNG:  " + anweisung);
 		ResultSet alleGerichte = this.verbinder.fuehreAnweisungAus(anweisung);
 		List<Gericht> listeMitAllenGerichten = new ArrayList<Gericht>();
 		try {
@@ -170,7 +169,6 @@ public class JdbcEntiaetVerwalter implements EntiaetVerwalter {
 			zutatenListe.add(zutat);
 		}
 		gericht.setZutaten(zutatenListe);
-		System.out.println(gericht.getZutaten().size());
 
 		return gericht;
 

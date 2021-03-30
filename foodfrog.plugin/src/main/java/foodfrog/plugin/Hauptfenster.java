@@ -46,6 +46,8 @@ public class Hauptfenster extends JFrame implements Beobachter{
 	private GerichtFormular gerichtformular;
 	private GerichtRegler gerichtRegler;
 	private WochenplanRegler wochenplanRegler;
+	private JDialog	alleGerichteUebersicht;
+	private JList<Gericht> gerichtListe;
 
 	public Hauptfenster(GerichtRegler gerichtRegler, WochenplanRegler wochenplanRegler) {
 		this.gerichtRegler = gerichtRegler;
@@ -63,7 +65,6 @@ public class Hauptfenster extends JFrame implements Beobachter{
 
 		try {
 			Image imgLogo = ImageIO.read(getClass().getClassLoader().getResource("foodfrogLogoName.png"));
-			System.out.println(imgLogo);
 			imgLogo = imgLogo.getScaledInstance(220, 250, Image.SCALE_SMOOTH);
 			foodfrogLogo.setIcon(new ImageIcon(imgLogo));
 		} catch (Exception ex) {
@@ -92,7 +93,6 @@ public class Hauptfenster extends JFrame implements Beobachter{
 
 		try {
 			Image imgWochenplan = ImageIO.read(getClass().getClassLoader().getResource("wochenplan.png"));
-			System.out.println(imgWochenplan);
 			imgWochenplan = imgWochenplan.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
 			btnWochenplan.setIcon(new ImageIcon(imgWochenplan));
 		} catch (Exception ex) {
@@ -124,7 +124,6 @@ public class Hauptfenster extends JFrame implements Beobachter{
 
 		try {
 			Image imgRezepterstellung = ImageIO.read(getClass().getClassLoader().getResource("rezeptbuch.png"));
-			System.out.println(imgRezepterstellung);
 			imgRezepterstellung = imgRezepterstellung.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
 			btnRezepterstellung.setIcon(new ImageIcon(imgRezepterstellung));
 		} catch (Exception ex) {
@@ -165,14 +164,14 @@ public class Hauptfenster extends JFrame implements Beobachter{
 			
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<Gericht> alleGerichte = (ArrayList<Gericht>) ((GerichtRegler)Hauptfenster.this.gerichtRegler).holeAlle();
-				JDialog	dialogFormular = new JDialog();
-				dialogFormular.setTitle("Übersicht der Gerichte");
-				JList<Gericht> gerichtListe = new JList<Gericht>();
+				alleGerichteUebersicht = new JDialog();
+				alleGerichteUebersicht.setTitle("Übersicht der Gerichte");
+				gerichtListe = new JList<Gericht>();
 				gerichtListe.setListData(alleGerichte.toArray(new Gericht[alleGerichte.size()]));
-				dialogFormular.add(gerichtListe);
-				dialogFormular.setSize(1700,1080);
+				alleGerichteUebersicht.add(gerichtListe);
+				alleGerichteUebersicht.setSize(1700,1080);
 				// dialogFormular.pack();
-				dialogFormular.setVisible(true);
+				alleGerichteUebersicht.setVisible(true);
 
 			}
 		});
@@ -210,7 +209,15 @@ public class Hauptfenster extends JFrame implements Beobachter{
 	}
 
 	public void aktualisiere(Object o) {
-		System.out.println("Gerichte haben sich geändert jetzt aktualisieren!!!");
+		ArrayList<Gericht> alleGerichte = (ArrayList<Gericht>) ((GerichtRegler)Hauptfenster.this.gerichtRegler).holeAlle();
+		gerichtListe.setListData(alleGerichte.toArray(new Gericht[alleGerichte.size()]));
+		if(gerichtListe != null) {
+			alleGerichteUebersicht.remove(gerichtListe);
+		}
+		alleGerichteUebersicht.add(gerichtListe);
+		alleGerichteUebersicht.setSize(1700,1080);
+		alleGerichteUebersicht.repaint();
+		alleGerichteUebersicht.revalidate();
 		
 	}
 

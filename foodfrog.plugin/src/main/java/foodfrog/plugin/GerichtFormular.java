@@ -142,6 +142,7 @@ public class GerichtFormular extends JPanel {
 				Gericht erstelltesGericht = GerichtFormular.this.gerichtRegler.erstelleGericht(gericht);
 				if(erstelltesGericht != null) {
 					JOptionPane.showMessageDialog(GerichtFormular.this, erstelltesGericht.getName() + " wurde erfolgreich erstellt.");
+					GerichtFormular.this.gerichtRegler.benachrichtige();
 				}
 
 			}
