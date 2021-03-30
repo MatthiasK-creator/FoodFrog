@@ -39,7 +39,12 @@ public class Wochenplanverwaltung {
 		}else {
 			return false;
 		}
-
+	}
+	// Eigentlich ist das die Aufgabe von einem KategorieRegler.
+	public ArrayList<Kategorie> holeAlleKategorien(){
+		ArrayList<Kategorie> kategorienliste = new ArrayList<>();
+		this.verwalter.holeAlle(Kategorie.class).forEach(x -> kategorienliste.add((Kategorie) x));
+		return kategorienliste;
 	}
 	
 	public HashMap<String, List<Zutat>>  generiereEinkaufsliste() {
@@ -57,6 +62,7 @@ public class Wochenplanverwaltung {
 		}
 		return gericht;
 	}
+	
 	
 	public List<Gericht> getWochenplan() {
 		return wochenplan;

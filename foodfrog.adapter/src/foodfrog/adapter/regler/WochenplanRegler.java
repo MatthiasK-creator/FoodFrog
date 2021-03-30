@@ -37,6 +37,11 @@ public class WochenplanRegler implements Subjekt{
 		return this.wochenplanVerwaltung.gerichtHinzufuegen(gericht);
 	}
 	
+	public ArrayList<Kategorie> holeAlleKategorien(){
+		return this.wochenplanVerwaltung.holeAlleKategorien();
+	}
+
+	
 
 	@Override
 	public void meldeAn(Beobachter beobachter) {

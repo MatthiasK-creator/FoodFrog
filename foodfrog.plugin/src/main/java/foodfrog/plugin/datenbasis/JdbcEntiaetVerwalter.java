@@ -46,27 +46,17 @@ public class JdbcEntiaetVerwalter implements EntiaetVerwalter {
 	public List<Gericht> holeZufaelligMitFilter(int anzahl, List<Kategorie> filter) {
 		String anweisung = "SELECT DISTINCT * FROM gerichte LEFT JOIN kategorien ON (gerichte.id = kategorien.gericht)";
 		for (Kategorie kategorie : filter) {
-			anweisung += "AND kategorien.bezeichnung = " + kategorie.getBezeichnung();
+			anweisung += " AND kategorien.bezeichnung = \"" + kategorie.getBezeichnung()+"\"";
 		}
 		anweisung += " ORDER BY RANDOM() LIMIT 5";
+		System.out.println("Aweisung: " + anweisung);
 		ResultSet alleGerichte = this.verbinder.fuehreAnweisungAus(anweisung);
 		List<Gericht> listeMitAllenGerichten = new ArrayList<Gericht>();
 		try {
 			while (alleGerichte.next()) {
-				Gericht gericht = new Gericht(alleGerichte.getInt("id"), alleGerichte.getString("name"),
-						alleGerichte.getString("beschreibung"), alleGerichte.getInt("aufwand"));
-				String bilderAnweisung = "SELECT * FROM bilder LEFT JOIN gerichte ON (bilder.gericht = "
-						+ gericht.getId() + ")";
-				ResultSet alleBilder = this.verbinder.fuehreAnweisungAus(bilderAnweisung);
-				List<Bild> bilderListe = new ArrayList<Bild>();
-				while (alleBilder.next()) {
-					Bild bild = new Bild(alleBilder.getInt("id"), alleBilder.getString("titel"),
-							alleBilder.getBytes("grafik"));
-					bilderListe.add(bild);
-				}
-				gericht.setBilder(bilderListe);
-				listeMitAllenGerichten.add(gericht);
+				listeMitAllenGerichten.add(this.erstelleGericht(alleGerichte));
 			}
+			return listeMitAllenGerichten;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -77,6 +67,17 @@ public class JdbcEntiaetVerwalter implements EntiaetVerwalter {
 	public List<Entitaet> holeAlle(Class c) {
 		if (c == Kategorie.class) {
 			String anweisung = "SELECT * FROM kategorien";
+			ResultSet alleKategorien = this.verbinder.fuehreAnweisungAus(anweisung);
+			List<Entitaet> listeMitAllenGerichten = new ArrayList<>();
+			try {
+				while(alleKategorien.next()) {
+					Kategorie kat = new Kategorie(alleKategorien.getInt("id"), alleKategorien.getString("bezeichnung"));
+					listeMitAllenGerichten.add(kat);
+					return listeMitAllenGerichten;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 
 		} else if (c == Gericht.class) {
 			String anweisung = "SELECT * FROM gerichte";

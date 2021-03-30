@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 
 import foodfrog.kern.Entitaet;
 import foodfrog.kern.Gericht;
+import foodfrog.kern.Kategorie;
 
 public class Gerichtverwaltung {
 	

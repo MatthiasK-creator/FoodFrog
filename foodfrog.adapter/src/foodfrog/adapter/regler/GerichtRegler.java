@@ -39,8 +39,7 @@ public class GerichtRegler implements Subjekt{
 	public List<Gericht> holeAlle(){
 		return this.verwaltung.holeAlle();
 	}
-
-
+	
 
 	@Override
 	public void meldeAn(Beobachter beobachter) {

@@ -2,7 +2,9 @@ package foodfrog.starter.app;
 
 
 import foodfrog.adapter.regler.GerichtRegler;
+import foodfrog.adapter.regler.WochenplanRegler;
 import foodfrog.applikation.Gerichtverwaltung;
+import foodfrog.applikation.Wochenplanverwaltung;
 import foodfrog.plugin.Hauptfenster;
 import foodfrog.plugin.datenbasis.JdbcEntiaetVerwalter;
 import foodfrog.plugin.datenbasis.JdbcVerbinder;
@@ -13,8 +15,10 @@ public class Applikation {
 		JdbcVerbinder verbinder = JdbcVerbinder.holeInstanz();
 		JdbcEntiaetVerwalter verwalter = new JdbcEntiaetVerwalter();
 	    Gerichtverwaltung verwaltung = new Gerichtverwaltung(verwalter);
-	    GerichtRegler regler = new GerichtRegler(verwaltung);
-		Hauptfenster hauptfenster = new Hauptfenster(regler);
+	    Wochenplanverwaltung wochenplanVerwaltung = new Wochenplanverwaltung(verwalter);
+	    GerichtRegler gerichtRegler = new GerichtRegler(verwaltung);
+	    WochenplanRegler wochenplanRegler = new WochenplanRegler(wochenplanVerwaltung);
+		Hauptfenster hauptfenster = new Hauptfenster(gerichtRegler, wochenplanRegler);
 	}
 
 }

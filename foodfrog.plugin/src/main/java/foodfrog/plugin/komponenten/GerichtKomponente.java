@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.Insets;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -17,13 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import foodfrog.adapter.renderer.GerichtRenderer;
+import foodfrog.kern.Gericht;
 
 public class GerichtKomponente extends JPanel {
-
-	private String wochentag;
-	private String[] kategorie;
-	private String gerichtname;
-	private int zubereitungsZeit;
 
 	private JPanel pnlWest;
 	private JPanel pnlMitte;
@@ -39,22 +36,18 @@ public class GerichtKomponente extends JPanel {
 	private JButton btnZumRezept;
 	private Image img;
 
-	public GerichtKomponente() {
-		super();
-
+	private Gericht gericht;
+	public GerichtKomponente(String wochentag, Gericht gericht) {
+		this.gericht = gericht;
 		// String gerichtname, String wochentag, String[] kategorie, int
 		// zubereitungsZeit
 		gerichtRenderer = GerichtRenderer.holeInstanz();
-
-		this.wochentag = wochentag;
-		this.kategorie = kategorie;
-		this.zubereitungsZeit = zubereitungsZeit;
 
 		// Panel Westen für Wochentag
 
 		pnlWest = new JPanel();
 		pnlWest.setPreferredSize(new Dimension(150,100));
-		lblWochentag = new JLabel("Wochentag");
+		lblWochentag = new JLabel(wochentag);
 		pnlWest.add(lblWochentag);
 
 		// Panel Mitte für Gerichtname, Kategorie, Dauer und Buttons
@@ -69,11 +62,11 @@ public class GerichtKomponente extends JPanel {
 		mitteConstraints.gridy = 0;
 
 		lblGerichtname = new JLabel();
-		lblGerichtname.setText("Gerichtname");
+		lblGerichtname.setText(this.gerichtRenderer.renderKopfzeile(gericht));
 
 		pnlMitte.add(lblGerichtname, mitteConstraints);
 
-		lblKategorie = new JLabel("Kategorie");
+		lblKategorie = new JLabel(this.gerichtRenderer.renderKategorien(gericht));
 
 		mitteConstraints.gridx = 0;
 		mitteConstraints.gridy = 1;
@@ -81,7 +74,7 @@ public class GerichtKomponente extends JPanel {
 
 		pnlMitte.add(lblKategorie, mitteConstraints);
 
-		lblZubereitungszeit = new JLabel("Dauer:");
+		lblZubereitungszeit = new JLabel(this.gerichtRenderer.renderDauer(gericht));
 
 		mitteConstraints.gridx = 0;
 		mitteConstraints.gridy = 2;
@@ -112,8 +105,11 @@ public class GerichtKomponente extends JPanel {
 		// Panel Mitte für Bild des Gerichts
 
 		pnlOsten = new JPanel();
-		lblGerichtbild = new JLabel("Hier soll ein Bild sein...");
 
+		ImageIcon icon = new ImageIcon(gericht.getBilder().get(0).getGrafik());
+		Image img = icon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+		lblGerichtbild = new JLabel();
+		lblGerichtbild.setIcon(new ImageIcon(img));
 		pnlOsten.add(lblGerichtbild);
 
 		this.setLayout(new BorderLayout());

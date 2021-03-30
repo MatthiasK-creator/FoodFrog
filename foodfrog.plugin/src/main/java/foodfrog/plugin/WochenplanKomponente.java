@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
@@ -18,10 +19,16 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
+import foodfrog.adapter.beobachter.muster.Subjekt;
+import foodfrog.adapter.regler.GerichtRegler;
+import foodfrog.adapter.regler.WochenplanRegler;
+import foodfrog.kern.Gericht;
+import foodfrog.kern.Kategorie;
 import foodfrog.kern.Wochentag;
 import foodfrog.plugin.komponenten.GerichtKomponente;
 
@@ -40,15 +47,17 @@ public class WochenplanKomponente extends JPanel {
 	
 	
 	private JList<Wochentag> wochentagListe;
+	private JList<Kategorie> kategorieListe;
 	
 	private ArrayList<GerichtKomponente> gerichtKomponenten;
+	private WochenplanRegler wochenplanRegler;
 
-	public WochenplanKomponente() {
-
+	public WochenplanKomponente(WochenplanRegler subjekt) {
+		this.wochenplanRegler = subjekt;
 		// Navigationsleiste erstellen
 
 		pnlWPNavigation = new JPanel();
-		pnlWPNavigation.setLayout(new GridLayout(1, 6));
+		pnlWPNavigation.setLayout(new GridLayout(1, 7));
 
 		// Button neue Rezepte
 
@@ -62,6 +71,31 @@ public class WochenplanKomponente extends JPanel {
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
+		btnNeueRezepte.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(WochenplanKomponente.this.wochentagListe.getSelectedValuesList().size() < 0) {
+					JOptionPane.showConfirmDialog(WochenplanKomponente.this, "Bitte wähle mindestens ein Wochentag aus.");
+				}
+				List<Gericht> gerichte = WochenplanKomponente.this.wochenplanRegler.generiereWochenplan(WochenplanKomponente.this.wochentagListe.getSelectedValuesList().size(), 
+																			   WochenplanKomponente.this.kategorieListe.getSelectedValuesList());
+				pnlGerichtKomponente = new JPanel();
+				pnlGerichtKomponente.setLayout(new GridLayout(WochenplanKomponente.this.wochentagListe.getSelectedValuesList().size(),1));
+
+				for (int i = 0; i < gerichte.size(); i++) {
+					GerichtKomponente gerichtKomp = new GerichtKomponente(Wochentag.values()[i].wochentag , gerichte.get(i));
+					pnlGerichtKomponente.add(gerichtKomp);
+				}
+				
+				
+				JScrollPane scrollGerichte = new JScrollPane(pnlGerichtKomponente);
+				WochenplanKomponente.this.add(scrollGerichte, BorderLayout.CENTER);
+				WochenplanKomponente.this.repaint();
+				WochenplanKomponente.this.revalidate();
+
+			}
+		});
 
 		// Button Startseite
 
@@ -118,8 +152,8 @@ public class WochenplanKomponente extends JPanel {
 		// Combobox mit Auswahl von Wochentagen
 		
 		wochentagListe = new JList(Wochentag.values());
-		wochentagListe.setVisibleRowCount(Wochentag.values().length);
-		
+		kategorieListe = new JList(wochenplanRegler.holeAlleKategorien().toArray(new Kategorie[wochenplanRegler.holeAlleKategorien().size()]));
+		wochentagListe.setVisibleRowCount(wochenplanRegler.holeAlleKategorien().size());
 		// Navigationsleiste alles hinzufügen
 		
 
@@ -129,29 +163,16 @@ public class WochenplanKomponente extends JPanel {
 		pnlWPNavigation.add(lblwochenplan);
 		pnlWPNavigation.add(foodfrogLogo);
 		pnlWPNavigation.add(wochentagListe);
+		pnlWPNavigation.add(kategorieListe);
 		
 		// Panel Gerichtkomponente
 		
-		pnlGerichtKomponente = new JPanel();
-		pnlGerichtKomponente.setLayout(new GridLayout(7,1));
-		
-		GerichtKomponente gerichtKomp = new GerichtKomponente();
-		GerichtKomponente gerichtKomp2 = new GerichtKomponente();
-		
-		pnlGerichtKomponente.add(gerichtKomp);
-		pnlGerichtKomponente.add(gerichtKomp2);
-		
-		
-
-		// Alles hinzufügen
-		
-		JScrollPane scrollGerichte = new JScrollPane(pnlGerichtKomponente);
 
 		this.setLayout(new BorderLayout());
 		this.add(pnlWPNavigation, BorderLayout.NORTH);
-		this.add(scrollGerichte, BorderLayout.CENTER);
 		this.setVisible(true);
 
 	}
+
 
 }

@@ -17,6 +17,10 @@ public class Kategorie extends Entitaet {
 		this.bezeichnung = bezeichnung;
 	}
 	
+	@Override
+	public String toString() {
+		return "Kategorie: " + this.bezeichnung;
+	}
 
 	
 

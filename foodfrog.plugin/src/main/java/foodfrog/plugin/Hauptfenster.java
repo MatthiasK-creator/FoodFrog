@@ -26,6 +26,7 @@ import javax.swing.SwingConstants;
 import foodfrog.adapter.beobachter.muster.Beobachter;
 import foodfrog.adapter.beobachter.muster.Subjekt;
 import foodfrog.adapter.regler.GerichtRegler;
+import foodfrog.adapter.regler.WochenplanRegler;
 import foodfrog.applikation.Gerichtverwaltung;
 import foodfrog.kern.Entitaet;
 import foodfrog.kern.Gericht;
@@ -43,11 +44,13 @@ public class Hauptfenster extends JFrame implements Beobachter{
 	private JPanel hauptPanel;
 	private JPanel buttonPanel;
 	private GerichtFormular gerichtformular;
-	private Subjekt subjekt;
+	private GerichtRegler gerichtRegler;
+	private WochenplanRegler wochenplanRegler;
 
-	public Hauptfenster(Subjekt subjekt) {
-		this.subjekt = subjekt;
-		this.subjekt.meldeAn(this);
+	public Hauptfenster(GerichtRegler gerichtRegler, WochenplanRegler wochenplanRegler) {
+		this.gerichtRegler = gerichtRegler;
+		this.gerichtRegler.meldeAn(this);
+		this.wochenplanRegler = wochenplanRegler;
 		hauptPanel = new JPanel();
 		hauptPanel.setLayout(new BorderLayout());
 
@@ -104,7 +107,7 @@ public class Hauptfenster extends JFrame implements Beobachter{
 				// TODO Auto-generated method stub
 				
 				String[] options = new String[] {};
-				WochenplanKomponente wochenplanKomponente = new WochenplanKomponente();
+				WochenplanKomponente wochenplanKomponente = new WochenplanKomponente(Hauptfenster.this.wochenplanRegler);
 				JDialog	dialogWochenplan = new JDialog();
 				dialogWochenplan.setTitle("Gerichformular");
 				dialogWochenplan.add(wochenplanKomponente);
@@ -134,7 +137,7 @@ public class Hauptfenster extends JFrame implements Beobachter{
 				// TODO Auto-generated method stub
 
 				String[] options = new String[] {};
-				GerichtFormular gerichtFormular = new GerichtFormular(Hauptfenster.this, Hauptfenster.this.subjekt);
+				GerichtFormular gerichtFormular = new GerichtFormular(Hauptfenster.this, Hauptfenster.this.gerichtRegler);
 				JDialog	dialogFormular = new JDialog();
 				dialogFormular.setTitle("Wochenplan");
 				dialogFormular.add(gerichtFormular);
@@ -152,7 +155,6 @@ public class Hauptfenster extends JFrame implements Beobachter{
 		
 		try {
 			Image imgAlleGerichte = ImageIO.read(getClass().getClassLoader().getResource("menu.png"));
-			System.out.println(imgAlleGerichte);
 			imgAlleGerichte = imgAlleGerichte.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
 			btnAlleGerichte.setIcon(new ImageIcon(imgAlleGerichte));
 		} catch (Exception ex) {
@@ -162,7 +164,7 @@ public class Hauptfenster extends JFrame implements Beobachter{
 		btnAlleGerichte.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				ArrayList<Gericht> alleGerichte = (ArrayList<Gericht>) ((GerichtRegler)Hauptfenster.this.subjekt).holeAlle();
+				ArrayList<Gericht> alleGerichte = (ArrayList<Gericht>) ((GerichtRegler)Hauptfenster.this.gerichtRegler).holeAlle();
 				JDialog	dialogFormular = new JDialog();
 				dialogFormular.setTitle("Übersicht der Gerichte");
 				JList<Gericht> gerichtListe = new JList<Gericht>();
