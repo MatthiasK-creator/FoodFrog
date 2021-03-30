@@ -8,6 +8,10 @@ public class Kategorie extends Entitaet {
 		super(id);
 		this.bezeichnung = bezeichnung;
 	}
+	
+	public Kategorie(String bezeichnung) {
+		this.bezeichnung = bezeichnung;
+	}
 
 	public String getBezeichnung() {
 		return bezeichnung;

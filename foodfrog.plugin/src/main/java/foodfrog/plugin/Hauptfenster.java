@@ -107,7 +107,7 @@ public class Hauptfenster extends JFrame implements Beobachter{
 				// TODO Auto-generated method stub
 				
 				String[] options = new String[] {};
-				WochenplanKomponente wochenplanKomponente = new WochenplanKomponente(Hauptfenster.this.wochenplanRegler);
+				WochenplanKomponente wochenplanKomponente = new WochenplanKomponente(Hauptfenster.this, Hauptfenster.this.wochenplanRegler);
 				JDialog	dialogWochenplan = new JDialog();
 				dialogWochenplan.setTitle("Gerichformular");
 				dialogWochenplan.add(wochenplanKomponente);

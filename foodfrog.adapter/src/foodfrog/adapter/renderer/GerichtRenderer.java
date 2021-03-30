@@ -1,6 +1,7 @@
 package foodfrog.adapter.renderer;
 
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import foodfrog.kern.Gericht;
@@ -23,8 +24,9 @@ public class GerichtRenderer{
 	}
 	public String renderKategorien(Gericht gericht) {
 		String kategorienListe = "";
-		for (Kategorie kategorie: gericht.getKategorien()) {
-			kategorienListe += ","+kategorie.getBezeichnung();
+		kategorienListe += gericht.getKategorien().get(0);
+		for (int i = 1; i < gericht.getKategorien().size(); i++) {
+			kategorienListe += ","+gericht.getKategorien().get(i).getBezeichnung();
 		}
 		
 		return kategorienListe;
@@ -38,6 +40,18 @@ public class GerichtRenderer{
 		String zutatenListe = "";
 		for (Zutat zutat : zutaten) {
 			zutatenListe += "\n" + zutatRenderer.renderZutat(zutat);
+		}
+		return zutatenListe;
+	}
+	
+	public String renderBeschreibung(Gericht gericht) {
+		return gericht.getBeschreibung();
+	}
+	
+	public String renderAlleZutaten(List<Gericht> gerichte) {
+		String zutatenListe = "";
+		for (Gericht gericht : gerichte) {
+			zutatenListe += "\n" + this.renderZutaten(gericht.getZutaten());
 		}
 		return zutatenListe;
 	}

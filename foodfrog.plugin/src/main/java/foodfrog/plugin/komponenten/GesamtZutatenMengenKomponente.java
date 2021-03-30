@@ -10,6 +10,8 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import foodfrog.kern.Zutat;
+
 public class GesamtZutatenMengenKomponente extends JPanel {
 	
 	private int anzahlZutatenMengenKomponenten;
@@ -39,6 +41,13 @@ public class GesamtZutatenMengenKomponente extends JPanel {
 		this.komponentenListe.add(mengenKomponente); 
 		this.revalidate();
 		this.repaint();
+	}
+	public List<Zutat> holeErstellteZutaten(){
+		List<Zutat> zutatenListe = new ArrayList<>();
+		for (ZutatenMengenKomponente zutatenMengenKomponente : komponentenListe) {
+			zutatenListe.add(zutatenMengenKomponente.holeZutat());
+		}
+		return zutatenListe;
 	}
 
 

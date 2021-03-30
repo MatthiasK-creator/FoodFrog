@@ -7,6 +7,10 @@ public class Bild {
 	private byte[] grafik;
 	
 	
+	public Bild(String titel, byte[] grafik) {
+		this.titel = titel;
+		this.grafik = grafik;
+	}
 	public Bild(int id, String titel, byte[] grafik) {
 		super();
 		this.id = id;
@@ -30,6 +34,10 @@ public class Bild {
 		return id;
 	}
 	
+	@Override
+	public String toString() {
+		return titel;
+	}
 	
 
 }

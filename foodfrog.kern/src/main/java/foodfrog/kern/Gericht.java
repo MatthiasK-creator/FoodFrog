@@ -22,8 +22,12 @@ public class Gericht extends Entitaet{
 		this.beschreibung = beschreibung;
 		this.aufwand = aufwand;
 	}
-	
-
+	public Gericht(String name, String beschreibung, int aufwand) {
+		super();
+		this.name = name;
+		this.beschreibung = beschreibung;
+		this.aufwand = aufwand;
+	}
 	
 	
 	public String getName() {

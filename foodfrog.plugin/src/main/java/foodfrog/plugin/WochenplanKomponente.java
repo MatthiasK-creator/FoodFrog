@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,16 +18,19 @@ import javax.swing.ComboBoxEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import foodfrog.adapter.beobachter.muster.Subjekt;
 import foodfrog.adapter.regler.GerichtRegler;
 import foodfrog.adapter.regler.WochenplanRegler;
+import foodfrog.adapter.renderer.GerichtRenderer;
 import foodfrog.kern.Gericht;
 import foodfrog.kern.Kategorie;
 import foodfrog.kern.Wochentag;
@@ -51,10 +55,15 @@ public class WochenplanKomponente extends JPanel {
 	
 	private ArrayList<GerichtKomponente> gerichtKomponenten;
 	private WochenplanRegler wochenplanRegler;
+	private List<Gericht> aktuelleListeVonGerichten;
+	private GerichtRenderer gerichtRenderer;
 
-	public WochenplanKomponente(WochenplanRegler subjekt) {
+	private JScrollPane scrollGerichte;
+
+	public WochenplanKomponente(Hauptfenster hauptfenster, WochenplanRegler subjekt) {
 		this.wochenplanRegler = subjekt;
-		// Navigationsleiste erstellen
+		this.hauptfenster = hauptfenster;
+		gerichtRenderer = GerichtRenderer.holeInstanz();
 
 		pnlWPNavigation = new JPanel();
 		pnlWPNavigation.setLayout(new GridLayout(1, 7));
@@ -78,22 +87,25 @@ public class WochenplanKomponente extends JPanel {
 				if(WochenplanKomponente.this.wochentagListe.getSelectedValuesList().size() < 0) {
 					JOptionPane.showConfirmDialog(WochenplanKomponente.this, "Bitte wähle mindestens ein Wochentag aus.");
 				}
-				List<Gericht> gerichte = WochenplanKomponente.this.wochenplanRegler.generiereWochenplan(WochenplanKomponente.this.wochentagListe.getSelectedValuesList().size(), 
+				WochenplanKomponente.this.aktuelleListeVonGerichten = WochenplanKomponente.this.wochenplanRegler.generiereWochenplan(WochenplanKomponente.this.wochentagListe.getSelectedValuesList().size(), 
 																			   WochenplanKomponente.this.kategorieListe.getSelectedValuesList());
-				pnlGerichtKomponente = new JPanel();
-				pnlGerichtKomponente.setLayout(new GridLayout(WochenplanKomponente.this.wochentagListe.getSelectedValuesList().size(),1));
+				pnlGerichtKomponente = new JPanel(new GridLayout(WochenplanKomponente.this.wochentagListe.getSelectedValuesList().size(),1));
 
-				for (int i = 0; i < gerichte.size(); i++) {
-					GerichtKomponente gerichtKomp = new GerichtKomponente(Wochentag.values()[i].wochentag , gerichte.get(i));
+				for (int i = 0; i < aktuelleListeVonGerichten.size(); i++) {
+					GerichtKomponente gerichtKomp = new GerichtKomponente(Wochentag.values()[i].wochentag , aktuelleListeVonGerichten.get(i));
 					pnlGerichtKomponente.add(gerichtKomp);
 				}
 				
 				
-				JScrollPane scrollGerichte = new JScrollPane(pnlGerichtKomponente);
+				if(scrollGerichte != null) {
+					WochenplanKomponente.this.remove(scrollGerichte);
+					WochenplanKomponente.this.repaint();
+					WochenplanKomponente.this.revalidate();
+				}
+				scrollGerichte = new JScrollPane(pnlGerichtKomponente);
 				WochenplanKomponente.this.add(scrollGerichte, BorderLayout.CENTER);
 				WochenplanKomponente.this.repaint();
 				WochenplanKomponente.this.revalidate();
-
 			}
 		});
 
@@ -113,10 +125,7 @@ public class WochenplanKomponente extends JPanel {
 		btnStartseite.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
 				WochenplanKomponente.this.hauptfenster.requestFocus();
-
 			}
 		});
 
@@ -131,6 +140,25 @@ public class WochenplanKomponente extends JPanel {
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
+		btnEinkaufsliste.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(aktuelleListeVonGerichten != null) {
+					JDialog	dialogFormular = new JDialog();
+					dialogFormular.setTitle("Einkaufsliste");
+					JTextArea beschreibungsFeld = new JTextArea();
+					beschreibungsFeld.setText(gerichtRenderer.renderAlleZutaten(WochenplanKomponente.this.aktuelleListeVonGerichten));
+					beschreibungsFeld.setEditable(false);
+					dialogFormular.add(beschreibungsFeld);
+					dialogFormular.setSize(1000,1000);
+					dialogFormular.pack();
+					dialogFormular.setVisible(true);
+				}
+				
+				
+			}
+		});
 
 		lblwochenplan = new JLabel("Wochenplan");
 		lblwochenplan.setFont(new Font("Arial", Font.PLAIN, 30));

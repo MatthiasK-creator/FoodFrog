@@ -40,6 +40,11 @@ public class GerichtRegler implements Subjekt{
 		return this.verwaltung.holeAlle();
 	}
 	
+	public ArrayList<Kategorie> holeAlleKategorien(){
+		return this.verwaltung.holeAlleKategorien();
+	}
+
+	
 
 	@Override
 	public void meldeAn(Beobachter beobachter) {

@@ -8,13 +8,17 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import foodfrog.adapter.renderer.GerichtRenderer;
@@ -95,6 +99,21 @@ public class GerichtKomponente extends JPanel {
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
+		btnZumRezept.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JDialog	dialogFormular = new JDialog();
+				dialogFormular.setTitle("Rezept zum Gericht: " + GerichtKomponente.this.gericht.getName());
+				JTextArea beschreibungsFeld = new JTextArea();
+				beschreibungsFeld.setText(gerichtRenderer.renderBeschreibung(gericht));
+				beschreibungsFeld.setEditable(false);
+				dialogFormular.add(beschreibungsFeld);
+				dialogFormular.setSize(1000,1000);
+				dialogFormular.pack();
+				dialogFormular.setVisible(true);
+			}
+		});
 
 		pnlButton.add(btnZumRezept);
 

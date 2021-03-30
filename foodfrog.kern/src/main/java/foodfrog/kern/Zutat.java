@@ -21,7 +21,11 @@ public class Zutat {
 	public Zutat(int id, String bezeichnung, int menge, Einheit einheit) {
 		this(id, bezeichnung, menge);
 		this.einheit = einheit; 
-		
+	}
+	public Zutat( String bezeichnung, int menge, Einheit einheit) {
+		this.bezeichnung = bezeichnung;
+		this.menge = menge;
+		this.einheit = einheit; 
 	}
 	
 	public String getBezeichnung() {

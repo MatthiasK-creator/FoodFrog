@@ -39,6 +39,14 @@ public class Gerichtverwaltung {
 		return (Gericht) this.verwalter.hole(Gericht.class, id);
 	}
 	
+	// Eigentlich ist das die Aufgabe von einem KategorieRegler.
+	public ArrayList<Kategorie> holeAlleKategorien(){
+		ArrayList<Kategorie> kategorienliste = new ArrayList<>();
+		this.verwalter.holeAlle(Kategorie.class).forEach(x -> kategorienliste.add((Kategorie) x));
+		return kategorienliste;
+	}
+
+	
 	public List<Gericht> holeAlle() {
 		List<Gericht> alleGerichte = new ArrayList<Gericht>();
 		for (Entitaet entitaet : this.verwalter.holeAlle(Gericht.class)) {
