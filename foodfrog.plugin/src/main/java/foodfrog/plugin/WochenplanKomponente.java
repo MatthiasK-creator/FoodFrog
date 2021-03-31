@@ -191,7 +191,10 @@ public class WochenplanKomponente extends JPanel {
 		pnlWPNavigation.add(lblwochenplan);
 		pnlWPNavigation.add(foodfrogLogo);
 		pnlWPNavigation.add(wochentagListe);
-		pnlWPNavigation.add(kategorieListe);
+	
+		
+		JScrollPane scrollKategorie = new JScrollPane(kategorieListe);
+		pnlWPNavigation.add(scrollKategorie);
 		
 		// Panel Gerichtkomponente
 		

@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
@@ -52,6 +53,7 @@ public class GerichtKomponente extends JPanel {
 		pnlWest = new JPanel();
 		pnlWest.setPreferredSize(new Dimension(150,100));
 		lblWochentag = new JLabel(wochentag);
+		lblWochentag.setFont(new Font("Arial", Font.BOLD, 30));
 		pnlWest.add(lblWochentag);
 
 		// Panel Mitte für Gerichtname, Kategorie, Dauer und Buttons
@@ -66,11 +68,15 @@ public class GerichtKomponente extends JPanel {
 		mitteConstraints.gridy = 0;
 
 		lblGerichtname = new JLabel();
+		lblGerichtname.setFont(new Font("Arial", Font.PLAIN, 20));
 		lblGerichtname.setText(this.gerichtRenderer.renderKopfzeile(gericht));
 
 		pnlMitte.add(lblGerichtname, mitteConstraints);
 
 		lblKategorie = new JLabel(this.gerichtRenderer.renderKategorien(gericht));
+		lblKategorie.setFont(new Font("Arial", Font.PLAIN, 20));
+		
+		
 
 		mitteConstraints.gridx = 0;
 		mitteConstraints.gridy = 1;
@@ -79,6 +85,7 @@ public class GerichtKomponente extends JPanel {
 		pnlMitte.add(lblKategorie, mitteConstraints);
 
 		lblZubereitungszeit = new JLabel(this.gerichtRenderer.renderDauer(gericht));
+		lblZubereitungszeit.setFont(new Font("Arial", Font.PLAIN, 20));
 
 		mitteConstraints.gridx = 0;
 		mitteConstraints.gridy = 2;
