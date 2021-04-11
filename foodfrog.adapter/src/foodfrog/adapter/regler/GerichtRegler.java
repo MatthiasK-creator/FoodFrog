@@ -32,7 +32,7 @@ public class GerichtRegler implements Subjekt{
 		return this.verwaltung.aendereGericht(gericht.getId(), gericht);
 	}
 	
-	public boolean loescheGericht(long id) {
+	public boolean loescheGericht(int id) {
 		return this.verwaltung.loescheGericht(Gericht.class, id);
 	}
 	

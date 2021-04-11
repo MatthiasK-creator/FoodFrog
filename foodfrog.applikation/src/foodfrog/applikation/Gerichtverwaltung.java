@@ -2,6 +2,7 @@ package foodfrog.applikation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.swing.ImageIcon;
 
@@ -17,17 +18,11 @@ public class Gerichtverwaltung {
 		this.verwalter = verwalter;
 	}
 	
-	public boolean loescheGericht(Class c, long id){
-		if(this.verwalter.hole(c, id) != null) {
-			this.verwalter.loesche(c, id);
-			return true;
-		}
-		else {
-			return false;
-		}
+	public boolean loescheGericht(Class c, int id){
+		return this.verwalter.loesche(c, id);
 	}
 	
-	public Gericht aendereGericht(long id, Gericht gericht){
+	public Gericht aendereGericht(int id, Gericht gericht){
 		return (Gericht) this.verwalter.aendere(Gericht.class, id, gericht);
 	}
 	
@@ -35,7 +30,7 @@ public class Gerichtverwaltung {
 		return (Gericht) this.verwalter.erstellle(Gericht.class, gericht);
 	}
 	
-	public Gericht holeGericht(long id){
+	public Gericht holeGericht(int id){
 		return (Gericht) this.verwalter.hole(Gericht.class, id);
 	}
 	

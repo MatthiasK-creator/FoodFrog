@@ -23,8 +23,8 @@ public class JdbcEntiaetVerwalter implements EntiaetVerwalter {
 
 	private JdbcVerbinder verbinder;
 
-	public JdbcEntiaetVerwalter() {
-		verbinder = JdbcVerbinder.holeInstanz();
+	public JdbcEntiaetVerwalter(JdbcVerbinder verbinder) {
+		this.verbinder = verbinder;
 	}
 
 	public Entitaet erstellle(Class c, Entitaet entitaet) {
@@ -56,15 +56,15 @@ public class JdbcEntiaetVerwalter implements EntiaetVerwalter {
 		return gericht;
 	}
 
-	public boolean loesche(Class c, long id) {
+	public boolean loesche(Class c, int id) {
 		return false;
 	}
 
-	public Entitaet aendere(Class c, long id, Entitaet gericht) {
+	public Entitaet aendere(Class c, int id, Entitaet gericht) {
 		return null;
 	}
 
-	public Entitaet hole(Class c, long id) {
+	public Entitaet hole(Class c, int id) {
 		return null;
 	}
 
@@ -80,6 +80,7 @@ public class JdbcEntiaetVerwalter implements EntiaetVerwalter {
 		}
 		anweisung += " GROUP BY gerichte.id";
 		anweisung += " ORDER BY RANDOM() LIMIT " + anzahl;
+		System.out.println(anweisung);
 		ResultSet alleGerichte = this.verbinder.fuehreAnweisungAus(anweisung);
 		List<Gericht> listeMitAllenGerichten = new ArrayList<Gericht>();
 		try {

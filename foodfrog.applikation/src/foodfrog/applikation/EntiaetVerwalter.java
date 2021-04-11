@@ -8,9 +8,9 @@ import foodfrog.kern.Entitaet;
 
 public interface EntiaetVerwalter {
 	public Entitaet erstellle(Class c, Entitaet gericht);
-	public boolean loesche(Class c, long id);
-	public Entitaet aendere(Class c, long id, Entitaet gericht);
-	public Entitaet hole(Class c, long id);
+	public boolean loesche(Class c, int id);
+	public Entitaet aendere(Class c, int id, Entitaet gericht);
+	public Entitaet hole(Class c, int id);
 	public Entitaet holeZufaellig(Class c);
 	public List<Entitaet> holeAlle(Class c);
 	

@@ -13,7 +13,7 @@ import org.apache.commons.io.IOUtils;
 
 import foodfrog.kern.Einheit;
 
-public class JdbcVerbinder {
+public class JdbcVerbinder implements IJDBCAnweisungen {
 	private static final JdbcVerbinder dbVerbinder = new JdbcVerbinder();
 	private Connection connection;
 	private final String DB_PATH = "foodfrog.db";
@@ -148,24 +148,24 @@ public class JdbcVerbinder {
 		this.erstelleEinheiten();
 		final String[] testDatenAnweisungen = new String[] {
 				// Gericht 1
-				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Seehecht mit Kräuter-Bohnen-Risotto', 'Rezept mit Schritt für Schritt Anleitung', 40 );",
+				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Seehecht mit Krï¿½uter-Bohnen-Risotto', 'Rezept mit Schritt fï¿½r Schritt Anleitung', 40 );",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Wenig Kalorien', (SELECT id FROM gerichte WHERE id=1));",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Fischgericht', (SELECT id FROM gerichte WHERE id=1));",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Seehecht', 250, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=1))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Risottoreis', 80, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=1))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Gemüsebrühe', 8, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=1))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Gemï¿½sebrï¿½he', 8, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=1))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Dill', 1, (SELECT id FROM einheiten WHERE einheit = 'Bund'), (SELECT id FROM gerichte WHERE id=1))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Petersilie', 1, (SELECT id FROM einheiten WHERE einheit = 'Bund'), (SELECT id FROM gerichte WHERE id=1))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Buschbohne', 1, (SELECT id FROM einheiten WHERE einheit = 'Bund'), (SELECT id FROM gerichte WHERE id=1))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Haselnüsse', 50, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=1))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Gewürmischung Hello Grünzeug', 1, (SELECT id FROM einheiten WHERE einheit = 'Packung'), (SELECT id FROM gerichte WHERE id=1))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('geriebener Hartkäse', 50, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=1))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Haselnï¿½sse', 50, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=1))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Gewï¿½rmischung Hello Grï¿½nzeug', 1, (SELECT id FROM einheiten WHERE einheit = 'Packung'), (SELECT id FROM gerichte WHERE id=1))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('geriebener Hartkï¿½se', 50, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=1))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Knoblauch', 1, (SELECT id FROM einheiten WHERE einheit = 'Zehe'), (SELECT id FROM gerichte WHERE id=1))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Schalotte', 1, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=1))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Schalotte', 1, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=1))",
 
 				// Gericht 2
 
-				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Spaghetti alla panna', 'Die Butter aufschäumen lassen, dann 100 ml Sahne zugeben und auf die Hälfte reduzieren. Mit Salz und geriebenem Muskat abschmecken. Die Spaghetti nach Packungsanweisung bissfest kochen. In einen Seiher abgießen, abtropfen lassen und zurück in den Topf geben. Die Sahne-Butter-Reduktion nun zu den Spaghetti geben, die restliche Sahne und der geriebene Parmesan zufügen. Gut vermischen.', 20 );",
+				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Spaghetti alla panna', 'Die Butter aufschï¿½umen lassen, dann 100 ml Sahne zugeben und auf die Hï¿½lfte reduzieren. Mit Salz und geriebenem Muskat abschmecken. Die Spaghetti nach Packungsanweisung bissfest kochen. In einen Seiher abgieï¿½en, abtropfen lassen und zurï¿½ck in den Topf geben. Die Sahne-Butter-Reduktion nun zu den Spaghetti geben, die restliche Sahne und der geriebene Parmesan zufï¿½gen. Gut vermischen.', 20 );",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Pastagericht', (SELECT id FROM gerichte WHERE id=2));",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Italienisch', (SELECT id FROM gerichte WHERE id=2));",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Butter', 50, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=2))",
@@ -178,12 +178,12 @@ public class JdbcVerbinder {
 
 				// Gericht 3
 
-				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Nudeln mit Räucherlachs und Ziegenkäse', 'Die Zwiebel sanft in Butter anbraten, salzen und pfeffern. Die Sahne angießen, den Käse hineinkrümeln und die Sauce zum Kochen bringen. Häufig umrühren und bei kleiner Flamme etwas eindicken lassen. Zitronenschale, 1 Spritzer Worcestersauce, einen EL Minze und die Hälfte der Lachsstreifen in die Sauce rühren. Nochmal mit Salz, Pfeffer und Worcestersauce abschmecken und ggf. noch getrocknete Minze dazugeben, da diese meistens noch einen intensiveren Geschmack hat als die frische. Die Nudeln in Salzwasser al dente kochen. Mit der Sauce in der Pfanne verrühren. Jede Portion mit einigen Lachsstreifen und frischer Minze garnieren.', 15 );",
+				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Nudeln mit Rï¿½ucherlachs und Ziegenkï¿½se', 'Die Zwiebel sanft in Butter anbraten, salzen und pfeffern. Die Sahne angieï¿½en, den Kï¿½se hineinkrï¿½meln und die Sauce zum Kochen bringen. Hï¿½ufig umrï¿½hren und bei kleiner Flamme etwas eindicken lassen. Zitronenschale, 1 Spritzer Worcestersauce, einen EL Minze und die Hï¿½lfte der Lachsstreifen in die Sauce rï¿½hren. Nochmal mit Salz, Pfeffer und Worcestersauce abschmecken und ggf. noch getrocknete Minze dazugeben, da diese meistens noch einen intensiveren Geschmack hat als die frische. Die Nudeln in Salzwasser al dente kochen. Mit der Sauce in der Pfanne verrï¿½hren. Jede Portion mit einigen Lachsstreifen und frischer Minze garnieren.', 15 );",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Pastagericht', (SELECT id FROM gerichte WHERE id=3));",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Fischgericht', (SELECT id FROM gerichte WHERE id=3));",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Butter', 2, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=3))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Sahne', 200, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=3))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Ziegenfrischkäse', 150, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=3))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Ziegenfrischkï¿½se', 150, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=3))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('geriebener Zitronenschale', 1, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=3))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Minze', 2, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=3))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Lachs', 200, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=3))",
@@ -191,11 +191,11 @@ public class JdbcVerbinder {
 
 				// Gericht 4
 
-				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Zucchini-Zitronen-Nudeln', 'Die Nudeln nach Packungsanweisung bissfest kochen. Die Zucchini in lange dünne, ca. 2 cm breite Streifen schneiden und in einer großen Pfanne im erhitzten Öl so lange braten, bis sie gebräunt sind. Abgeriebene Zitronenschale, gehackten oder gepressten Knoblauch und die gehackte Petersilie zugeben, kurz weiter braten. Die abgetropften Nudeln unter die Zucchini mischen. Den Parmesan bzw. den Pecorino unterrühren und mit Salz, Pfeffer und Zitronensaft abschmecken.', 20 );",
+				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Zucchini-Zitronen-Nudeln', 'Die Nudeln nach Packungsanweisung bissfest kochen. Die Zucchini in lange dï¿½nne, ca. 2 cm breite Streifen schneiden und in einer groï¿½en Pfanne im erhitzten ï¿½l so lange braten, bis sie gebrï¿½unt sind. Abgeriebene Zitronenschale, gehackten oder gepressten Knoblauch und die gehackte Petersilie zugeben, kurz weiter braten. Die abgetropften Nudeln unter die Zucchini mischen. Den Parmesan bzw. den Pecorino unterrï¿½hren und mit Salz, Pfeffer und Zitronensaft abschmecken.', 20 );",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Pastagericht', (SELECT id FROM gerichte WHERE id=4));",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Vegetarisch', (SELECT id FROM gerichte WHERE id=4));",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Petersilie', 1, (SELECT id FROM einheiten WHERE einheit = 'Bund'), (SELECT id FROM gerichte WHERE id=4))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Zitrone', 1, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=4))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Zitrone', 1, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=4))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Knoblauch', 2, (SELECT id FROM einheiten WHERE einheit = 'Zehe'), (SELECT id FROM gerichte WHERE id=4))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Minze', 2, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=4))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Zucchini', 500, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=4))",
@@ -203,115 +203,115 @@ public class JdbcVerbinder {
 
 				// Gericht 5
 
-				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Kartoffel-Gemüse-Fleischwurst-Eintopf', 'Kartoffeln schälen, waschen, in Würfel schneiden und normal kochen. Das Gemüse nach Packungsanweisung kochen. Nach Ende der Kochzeit noch etwas Wasser hinzufügen, so dass das Gemüse gut mit Wasser bedeckt ist. Jetzt mit Salz, Pfeffer und gekörnter Brühe nach Geschmack würzen. Die Käseecke zugeben und schmelzen lassen. Die Fleischwurst in kleine Würfel schneiden und ebenfalls hinzufügen. Nach Ende der Kochzeit die Kartoffeln abkippen und gleichfalls hinzugeben. Zum Schluss das Ganze mit Mehlschwitze andicken. Am Ende kann man das Ganze noch mit Petersilie bestreuen.', 20 );",
+				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Kartoffel-Gemï¿½se-Fleischwurst-Eintopf', 'Kartoffeln schï¿½len, waschen, in Wï¿½rfel schneiden und normal kochen. Das Gemï¿½se nach Packungsanweisung kochen. Nach Ende der Kochzeit noch etwas Wasser hinzufï¿½gen, so dass das Gemï¿½se gut mit Wasser bedeckt ist. Jetzt mit Salz, Pfeffer und gekï¿½rnter Brï¿½he nach Geschmack wï¿½rzen. Die Kï¿½seecke zugeben und schmelzen lassen. Die Fleischwurst in kleine Wï¿½rfel schneiden und ebenfalls hinzufï¿½gen. Nach Ende der Kochzeit die Kartoffeln abkippen und gleichfalls hinzugeben. Zum Schluss das Ganze mit Mehlschwitze andicken. Am Ende kann man das Ganze noch mit Petersilie bestreuen.', 20 );",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Eintopf', (SELECT id FROM gerichte WHERE id=5));",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Kartoffeln', 3, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=5))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Kaisergemüse', 1, (SELECT id FROM einheiten WHERE einheit = 'Packung'), (SELECT id FROM gerichte WHERE id=5))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Fleischwurst', 1, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=5))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Schmelzkäse', 100, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=5))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Kartoffeln', 3, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=5))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Kaisergemï¿½se', 1, (SELECT id FROM einheiten WHERE einheit = 'Packung'), (SELECT id FROM gerichte WHERE id=5))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Fleischwurst', 1, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=5))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Schmelzkï¿½se', 100, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=5))",
 
 				// Gericht 6
 
-				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Polentasuppe pikant', 'Zwiebeln, Knoblauch und die Chilischote kleinschneiden und in wenig Butter alles andämpfen. Mit der Gemüsebrühe aufgießen und zum Kochen bringen. Die Polenta einrieseln lassen und köcheln lassen, bis die Polenta gar ist. Immer wieder durchrühren damit die Polenta nicht anbrennt. Am Schluss einen Schuss Milch dazugeben und mit Salz abschmecken.', 15 );",
+				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Polentasuppe pikant', 'Zwiebeln, Knoblauch und die Chilischote kleinschneiden und in wenig Butter alles andï¿½mpfen. Mit der Gemï¿½sebrï¿½he aufgieï¿½en und zum Kochen bringen. Die Polenta einrieseln lassen und kï¿½cheln lassen, bis die Polenta gar ist. Immer wieder durchrï¿½hren damit die Polenta nicht anbrennt. Am Schluss einen Schuss Milch dazugeben und mit Salz abschmecken.', 15 );",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Suppe', (SELECT id FROM gerichte WHERE id=6));",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Vegetarisch', (SELECT id FROM gerichte WHERE id=6));",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Gemüsebrühe', 1, (SELECT id FROM einheiten WHERE einheit = 'l'), (SELECT id FROM gerichte WHERE id=6))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Zwiebel klein', 1, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=6))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Gemï¿½sebrï¿½he', 1, (SELECT id FROM einheiten WHERE einheit = 'l'), (SELECT id FROM gerichte WHERE id=6))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Zwiebel klein', 1, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=6))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Knoblauch', 1, (SELECT id FROM einheiten WHERE einheit = 'Zehe'), (SELECT id FROM gerichte WHERE id=6))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Butter', 1, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=6))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Chilischote klein', 1, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=6))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Chilischote klein', 1, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=6))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Milch', 3, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=6))",
 
 				// Gericht 7
 
-				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Schinken - Nudel - Auflauf', 'Spiralnudeln nach Anleitung auf der Packung kochen, abgießen, abschrecken und gut abtropfen lassen. Abwechselnd mit Käse und dem kleingeschnittenen Schinken oder dem Selchfleisch in eine gut befettete und mit Semmelbröseln ausgestreute Auflaufform schichten. Eier mit Rahm, Salz und Muskat verquirlen. Das Ganze über den Auflauf gießen, Brösel und Butterflocken oben draufgeben, anschließend etwa 20-30 Minuten im vorgeheizten Backofen bei 200 Grad backen.', 30 );",
+				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Schinken - Nudel - Auflauf', 'Spiralnudeln nach Anleitung auf der Packung kochen, abgieï¿½en, abschrecken und gut abtropfen lassen. Abwechselnd mit Kï¿½se und dem kleingeschnittenen Schinken oder dem Selchfleisch in eine gut befettete und mit Semmelbrï¿½seln ausgestreute Auflaufform schichten. Eier mit Rahm, Salz und Muskat verquirlen. Das Ganze ï¿½ber den Auflauf gieï¿½en, Brï¿½sel und Butterflocken oben draufgeben, anschlieï¿½end etwa 20-30 Minuten im vorgeheizten Backofen bei 200 Grad backen.', 30 );",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Auflauf', (SELECT id FROM gerichte WHERE id=7));",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Pastagericht', (SELECT id FROM gerichte WHERE id=7));",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Eier', 3, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=7))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Eier', 3, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=7))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Schinken', 250, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=7))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('geriebener Käse', 100, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=7))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('geriebener Kï¿½se', 100, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=7))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Rahm / Schmand', 250, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=7))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Nudeln', 330, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=7))",
 
 				// Gericht 8
 
-				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Lauch-Kartoffel-Suppe', 'Das Gemüse klein schneiden und in etwas Öl anbraten. Die Cashewnüsse im Mixer fein mahlen (oder vorher einweichen und mit dem Pürierstab und etwas Wasser pürieren), mit ca. 3/4 l Wasser vermischen. Die entstandene Cashewsahne über das Gemüse geben. Die Gewürze hinzugeben und ca. 10 min. köcheln lassen, bis die Kartoffeln gar sind. Nach Vorliebe weiter abschmecken (z. B. mit etwas Senf, für noch käsigeren Geschmack), evtl. noch Wasser hinzufügen.', 20 );",
+				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Lauch-Kartoffel-Suppe', 'Das Gemï¿½se klein schneiden und in etwas ï¿½l anbraten. Die Cashewnï¿½sse im Mixer fein mahlen (oder vorher einweichen und mit dem Pï¿½rierstab und etwas Wasser pï¿½rieren), mit ca. 3/4 l Wasser vermischen. Die entstandene Cashewsahne ï¿½ber das Gemï¿½se geben. Die Gewï¿½rze hinzugeben und ca. 10 min. kï¿½cheln lassen, bis die Kartoffeln gar sind. Nach Vorliebe weiter abschmecken (z. B. mit etwas Senf, fï¿½r noch kï¿½sigeren Geschmack), evtl. noch Wasser hinzufï¿½gen.', 20 );",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Suppe', (SELECT id FROM gerichte WHERE id=8));",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Vegan', (SELECT id FROM gerichte WHERE id=8));",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Zwiebeln', 1, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=8))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Möhre', 1, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=8))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Lauchstange', 2, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=8))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Cashewnüsse', 100, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=8))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Zwiebeln', 1, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=8))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Mï¿½hre', 1, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=8))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Lauchstange', 2, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=8))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Cashewnï¿½sse', 100, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=8))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Haferflocken', 1, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=8))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Kurkuma', 2, (SELECT id FROM einheiten WHERE einheit = 'TL'), (SELECT id FROM gerichte WHERE id=8))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Gemüsebrühe', 1, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=8))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Öl', 1, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=8))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Gemï¿½sebrï¿½he', 1, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=8))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('ï¿½l', 1, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=8))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Senf', 1, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=8))",
 
 				// Gericht 9
 
-				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Kartoffelpuffer mit Speck und Käse', 'Die Kartoffeln und die Zwiebel schälen und reiben. Den Speck würfeln. Käse mit einer groben Reibe reiben. Die Eier, den gewürfelten Speck und Käse unter die Kartoffelmasse rühren und alles mit Salz und Pfeffer abschmecken. In heißem Öl ausbacken.', 30 );",
+				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Kartoffelpuffer mit Speck und Kï¿½se', 'Die Kartoffeln und die Zwiebel schï¿½len und reiben. Den Speck wï¿½rfeln. Kï¿½se mit einer groben Reibe reiben. Die Eier, den gewï¿½rfelten Speck und Kï¿½se unter die Kartoffelmasse rï¿½hren und alles mit Salz und Pfeffer abschmecken. In heiï¿½em ï¿½l ausbacken.', 30 );",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Kartoffelgericht', (SELECT id FROM gerichte WHERE id=9));",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Kartoffel', 1, (SELECT id FROM einheiten WHERE einheit = 'kg'), (SELECT id FROM gerichte WHERE id=9))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Eier', 3, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=9))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Zwiebel', 1, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=9))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Öl', 2, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=9))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Eier', 3, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=9))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Zwiebel', 1, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=9))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('ï¿½l', 2, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=9))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Speck', 250, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=9))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Gouda', 250, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=9))",
 
 				// Gericht 10
 
-				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Riso di Napoli', 'Die Tomaten einritzen, überbrühen, häuten und in Scheiben schneiden. Im Winter nehme ich alternativ eine Dose stückige Tomaten und verwende etwas weniger Fleischbrühe. Die Zwiebel schälen, fein würfeln und in einer beschichteten Pfanne im Olivenöl goldbraun anbraten. Den rohen Reis einrühren und glasig anrösten. Die Tomaten zugeben und mit der Brühe aufgießen. Die Pfanne mit einem Deckel schließen und den Reis bei geringer Wärmezufuhr in 20 - 25 min garen. Ab und zu umrühren und bei Bedarf ggf. noch etwas Fleischbrühe nachgießen. Der Reis sollte wirklich gar sein - deshalb ggf. die Garzeit nach Bedarf verlängern. Vor dem Servieren mit Salz, Pfeffer und ggf. Oregano abschmecken und mit dem geriebenen Käse bestreuen. Die Flüssigkeit sollte fast vollständig verkocht bzw. vom Reis aufgesaugt sein.', 15 );",
+				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Riso di Napoli', 'Die Tomaten einritzen, ï¿½berbrï¿½hen, hï¿½uten und in Scheiben schneiden. Im Winter nehme ich alternativ eine Dose stï¿½ckige Tomaten und verwende etwas weniger Fleischbrï¿½he. Die Zwiebel schï¿½len, fein wï¿½rfeln und in einer beschichteten Pfanne im Olivenï¿½l goldbraun anbraten. Den rohen Reis einrï¿½hren und glasig anrï¿½sten. Die Tomaten zugeben und mit der Brï¿½he aufgieï¿½en. Die Pfanne mit einem Deckel schlieï¿½en und den Reis bei geringer Wï¿½rmezufuhr in 20 - 25 min garen. Ab und zu umrï¿½hren und bei Bedarf ggf. noch etwas Fleischbrï¿½he nachgieï¿½en. Der Reis sollte wirklich gar sein - deshalb ggf. die Garzeit nach Bedarf verlï¿½ngern. Vor dem Servieren mit Salz, Pfeffer und ggf. Oregano abschmecken und mit dem geriebenen Kï¿½se bestreuen. Die Flï¿½ssigkeit sollte fast vollstï¿½ndig verkocht bzw. vom Reis aufgesaugt sein.', 15 );",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Reisgericht', (SELECT id FROM gerichte WHERE id=10));",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Vegetarisch', (SELECT id FROM gerichte WHERE id=10));",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Italienisch', (SELECT id FROM gerichte WHERE id=10));",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Zwiebeln', 1, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=10))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Fleischtomaten', 2, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=10))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Öl', 2, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=10))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Zwiebeln', 1, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=10))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Fleischtomaten', 2, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=10))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('ï¿½l', 2, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=10))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Gouda', 100, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=10))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Reis', 180, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=10))",
 
 				// Gericht 11
 
-				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Cous Cous - Salat', 'Cous Cous in eine große Schüssel geben. Wasser, Kräuterwürfel, Tomatenmark und Gemüsebrühe über den Cous Cous gießen. Das ganze 5 Minuten quellen lassen. In der Zwischenzeit das Gemüse würfeln und anschließend zum Cous Cous geben. Lauchzwiebeln in Ringe dazu. Den Salat mit Essig, Öl, Salz, frischem Pfeffer und Salatkräuter abschmecken. Nach Belieben gewürfelten Schafskäse oder den milderen Feta unterheben.', 20 );",
+				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Cous Cous - Salat', 'Cous Cous in eine groï¿½e Schï¿½ssel geben. Wasser, Krï¿½uterwï¿½rfel, Tomatenmark und Gemï¿½sebrï¿½he ï¿½ber den Cous Cous gieï¿½en. Das ganze 5 Minuten quellen lassen. In der Zwischenzeit das Gemï¿½se wï¿½rfeln und anschlieï¿½end zum Cous Cous geben. Lauchzwiebeln in Ringe dazu. Den Salat mit Essig, ï¿½l, Salz, frischem Pfeffer und Salatkrï¿½uter abschmecken. Nach Belieben gewï¿½rfelten Schafskï¿½se oder den milderen Feta unterheben.', 20 );",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Salat', (SELECT id FROM gerichte WHERE id=11));",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Vegetarisch', (SELECT id FROM gerichte WHERE id=11));",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Orientalisch', (SELECT id FROM gerichte WHERE id=11));",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Paprikaschote', 1, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=11))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Tomaten gewürfelt', 1, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=11))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Paprikaschote', 1, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=11))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Tomaten gewï¿½rfelt', 1, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=11))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Knoblauch', 2, (SELECT id FROM einheiten WHERE einheit = 'Zehe'), (SELECT id FROM gerichte WHERE id=11))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Tomatenmark', 2, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=11))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Gemüsebrühe', 2, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=11))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Salatgurke', 1, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=11))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Gemï¿½sebrï¿½he', 2, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=11))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Salatgurke', 1, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=11))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Couscous', 500, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=11))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Wasser', 600, (SELECT id FROM einheiten WHERE einheit = 'ml'), (SELECT id FROM gerichte WHERE id=11))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Lauchzwiebeln', 1, (SELECT id FROM einheiten WHERE einheit = 'Bund'), (SELECT id FROM gerichte WHERE id=11))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Essig', 1, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=11))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Öl', 1, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=11))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Schafskäse', 200, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=11))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('ï¿½l', 1, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=11))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Schafskï¿½se', 200, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=11))",
 
 				// Gericht 12
 
-				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Arabisches Hähnchen 1001 Nacht', 'Hähnchen waschen, trocken tupfen und innen und außen salzen und pfeffern. Für die Füllung die Hälfte des Öls erhitzen und gehackte Zwiebeln glasig dünsten, Reis zugeben, mit der Brühe ablöschen. Flüssigkeit einziehen lassen bis sich an der Oberfläche kleine Löcher bilden. Gewaschene Rosinen, Pinienkerne und gehackte Petersilie untermengen. Hähnchen füllen und mit Zwirn oder Rouladennadeln verschließen. In eine feuerfeste Form geben, Brühe und etwas Weißwein angießen. Mit restlichem Öl bepinseln und in den auf 250 Grad vorgeheizten Backofen schieben. Auf 180 - 200 Grad reduzieren und immer wieder mit Brühe bepinseln. Nach ca. 3/4 Std. prüfen ob das Fleisch gar ist. Dann den Reis, der vielleicht nicht mehr in den Vogel reingegangen ist, um das Hähnchen legen und Hähnchen mit Honig bepinseln. Im Ofen bräunen lassen (aber dabei bleiben, damit aus dem Vogel kein Rabe wird!)', 20 );",
+				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Arabisches Hï¿½hnchen 1001 Nacht', 'Hï¿½hnchen waschen, trocken tupfen und innen und auï¿½en salzen und pfeffern. Fï¿½r die Fï¿½llung die Hï¿½lfte des ï¿½ls erhitzen und gehackte Zwiebeln glasig dï¿½nsten, Reis zugeben, mit der Brï¿½he ablï¿½schen. Flï¿½ssigkeit einziehen lassen bis sich an der Oberflï¿½che kleine Lï¿½cher bilden. Gewaschene Rosinen, Pinienkerne und gehackte Petersilie untermengen. Hï¿½hnchen fï¿½llen und mit Zwirn oder Rouladennadeln verschlieï¿½en. In eine feuerfeste Form geben, Brï¿½he und etwas Weiï¿½wein angieï¿½en. Mit restlichem ï¿½l bepinseln und in den auf 250 Grad vorgeheizten Backofen schieben. Auf 180 - 200 Grad reduzieren und immer wieder mit Brï¿½he bepinseln. Nach ca. 3/4 Std. prï¿½fen ob das Fleisch gar ist. Dann den Reis, der vielleicht nicht mehr in den Vogel reingegangen ist, um das Hï¿½hnchen legen und Hï¿½hnchen mit Honig bepinseln. Im Ofen brï¿½unen lassen (aber dabei bleiben, damit aus dem Vogel kein Rabe wird!)', 20 );",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Arabisch', (SELECT id FROM gerichte WHERE id=12));",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Reisgericht', (SELECT id FROM gerichte WHERE id=12));",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Hähnchen groß', 1, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=12))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Öl', 1, (SELECT id FROM einheiten WHERE einheit = 'Tasse'), (SELECT id FROM gerichte WHERE id=12))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Zwiebel', 2, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=12))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Gemüsebrühe', 2, (SELECT id FROM einheiten WHERE einheit = 'Tasse'), (SELECT id FROM gerichte WHERE id=12))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Weißwein', 1, (SELECT id FROM einheiten WHERE einheit = 'Tasse'), (SELECT id FROM gerichte WHERE id=12))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Hï¿½hnchen groï¿½', 1, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=12))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('ï¿½l', 1, (SELECT id FROM einheiten WHERE einheit = 'Tasse'), (SELECT id FROM gerichte WHERE id=12))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Zwiebel', 2, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=12))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Gemï¿½sebrï¿½he', 2, (SELECT id FROM einheiten WHERE einheit = 'Tasse'), (SELECT id FROM gerichte WHERE id=12))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Weiï¿½wein', 1, (SELECT id FROM einheiten WHERE einheit = 'Tasse'), (SELECT id FROM gerichte WHERE id=12))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Rosinen', 50, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=12))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Pinienkerne', 50, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=12))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Petersilie', 1, (SELECT id FROM einheiten WHERE einheit = 'Bund'), (SELECT id FROM gerichte WHERE id=12))",
 
 				// Gericht 13
 
-				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Spargelsalat italienische Art', 'Spargel waschen, großzügig schälen, die holzigen Enden abschneiden, in mundgerechte Stücke schneiden. Wasser in einem großen Topf aufkochen, salzen. Den Spargel dazugeben und bei schwacher Hitze in etwa 12 Min. gar, aber nicht zu weich kochen. Herausnehmen und abkühlen lassen. trocknete Tomaten abtropfen lassen und fein würfeln. Pinienkerne ohne Fett in einer Pfanne leicht anrösten. Aceto Balsamico, Senf und Öl vermengen und mit Salz und Pfeffer abschmecken. Die getrockneten Tomaten hinzugeben. Die Mischung gleichmäßig über den Spargel geben und mindestens eine Stunde marinieren lassen. Die Kirsch-/Cocktailtomaten vierteln oder halbieren und über den Spargel geben, ebenso die Pinienkerne und den grob gehobelten Parmesan. Den Salat vermengen und eventuell noch etwas Pfeffer hinzufügen.', 30 );",
+				"INSERT INTO gerichte (name, beschreibung, aufwand) VALUES ('Spargelsalat italienische Art', 'Spargel waschen, groï¿½zï¿½gig schï¿½len, die holzigen Enden abschneiden, in mundgerechte Stï¿½cke schneiden. Wasser in einem groï¿½en Topf aufkochen, salzen. Den Spargel dazugeben und bei schwacher Hitze in etwa 12 Min. gar, aber nicht zu weich kochen. Herausnehmen und abkï¿½hlen lassen. trocknete Tomaten abtropfen lassen und fein wï¿½rfeln. Pinienkerne ohne Fett in einer Pfanne leicht anrï¿½sten. Aceto Balsamico, Senf und ï¿½l vermengen und mit Salz und Pfeffer abschmecken. Die getrockneten Tomaten hinzugeben. Die Mischung gleichmï¿½ï¿½ig ï¿½ber den Spargel geben und mindestens eine Stunde marinieren lassen. Die Kirsch-/Cocktailtomaten vierteln oder halbieren und ï¿½ber den Spargel geben, ebenso die Pinienkerne und den grob gehobelten Parmesan. Den Salat vermengen und eventuell noch etwas Pfeffer hinzufï¿½gen.', 30 );",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Italienisch', (SELECT id FROM gerichte WHERE id=13));",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Vegetarisch', (SELECT id FROM gerichte WHERE id=13));",
 				"INSERT INTO kategorien (bezeichnung, gericht) VALUES ('Salat', (SELECT id FROM gerichte WHERE id=13));",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Spargel weiß oder grün', 1, (SELECT id FROM einheiten WHERE einheit = 'kg'), (SELECT id FROM gerichte WHERE id=13))",
-				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Tomaten', 4, (SELECT id FROM einheiten WHERE einheit = 'Stück'), (SELECT id FROM gerichte WHERE id=13))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Spargel weiï¿½ oder grï¿½n', 1, (SELECT id FROM einheiten WHERE einheit = 'kg'), (SELECT id FROM gerichte WHERE id=13))",
+				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Tomaten', 4, (SELECT id FROM einheiten WHERE einheit = 'Stï¿½ck'), (SELECT id FROM gerichte WHERE id=13))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Aceto Balsamico', 3, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=13))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Dijonsenf', 1, (SELECT id FROM einheiten WHERE einheit = 'EL'), (SELECT id FROM gerichte WHERE id=13))",
 				"INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('Cocktailtomanten', 200, (SELECT id FROM einheiten WHERE einheit = 'g'), (SELECT id FROM gerichte WHERE id=13))",
@@ -331,16 +331,16 @@ public class JdbcVerbinder {
 		final String[] bilderAnweisungen = new String[] {
 				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Seehecht', ?, (SELECT id FROM gerichte WHERE id=1));",
 				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Spaghetti alla panna', ?, (SELECT id FROM gerichte WHERE id=2));",
-				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Nudeln mit Räucherlachs und Ziegenkäse', ?, (SELECT id FROM gerichte WHERE id=3));",
+				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Nudeln mit Rï¿½ucherlachs und Ziegenkï¿½se', ?, (SELECT id FROM gerichte WHERE id=3));",
 				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Zucchini-Zitronen-Nudeln', ?, (SELECT id FROM gerichte WHERE id=4));",
-				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Kartoffel-Gemüse-Fleischwurst-Eintopf', ?, (SELECT id FROM gerichte WHERE id=5));",
+				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Kartoffel-Gemï¿½se-Fleischwurst-Eintopf', ?, (SELECT id FROM gerichte WHERE id=5));",
 				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Polentasuppe pikant', ?, (SELECT id FROM gerichte WHERE id=6));",
 				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Schinken - Nudel - Auflauf', ?, (SELECT id FROM gerichte WHERE id=7));",
 				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Lauch-Kartoffel-Suppe', ?, (SELECT id FROM gerichte WHERE id=8));",
-				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Kartoffelpuffer mit Speck und Käse', ?, (SELECT id FROM gerichte WHERE id=9));",
+				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Kartoffelpuffer mit Speck und Kï¿½se', ?, (SELECT id FROM gerichte WHERE id=9));",
 				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Riso di Napoli', ?, (SELECT id FROM gerichte WHERE id=10));",
 				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Cous Cous - Salat', ?, (SELECT id FROM gerichte WHERE id=11));",
-				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Arabisches Hähnchen 1001 Nacht', ?, (SELECT id FROM gerichte WHERE id=12));",
+				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Arabisches Hï¿½hnchen 1001 Nacht', ?, (SELECT id FROM gerichte WHERE id=12));",
 				"INSERT INTO BILDER (titel, grafik, gericht) VALUES('Spargelsalat italienische Art', ?, (SELECT id FROM gerichte WHERE id=13));"};
 		try {
 			int zaehler = 1;
@@ -372,7 +372,7 @@ public class JdbcVerbinder {
 			hinzuAnweisung.setBytes(1, daten);
 			hinzuAnweisung.execute();
 		} catch (final SQLException e) {
-			System.err.println("Ausführung der Anweisung: " + sqlAnweisung + " fehlgeschlagen.");
+			System.err.println("Ausfï¿½hrung der Anweisung: " + sqlAnweisung + " fehlgeschlagen.");
 			e.printStackTrace();
 		}
 	}
@@ -386,7 +386,7 @@ public class JdbcVerbinder {
 				return anweisung.getResultSet();
 			}
 		} catch (final SQLException e) {
-			System.err.println("Ausführung der Anweisung: " + sqlAnweisung + " fehlgeschlagen.");
+			System.err.println("Ausfï¿½hrung der Anweisung: " + sqlAnweisung + " fehlgeschlagen.");
 			e.printStackTrace();
 		}
 		return null;
