@@ -81,12 +81,12 @@ public class Hauptfenster extends JFrame implements Beobachter{
 		label.setFont(new Font("Arial", Font.PLAIN, 20));
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 
-		// Button Panel für die Buttons Wochenplan, Einklaufsliste, Rezepterstellung
+		// Button Panel fï¿½r die Buttons Wochenplan, Einklaufsliste, Rezepterstellung
 
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1, 4));
 
-		// Button für Wochenplan
+		// Button fï¿½r Wochenplan
 
 		btnWochenplan = new JButton(" zum Wochenplan");
 		btnWochenplan.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -117,7 +117,7 @@ public class Hauptfenster extends JFrame implements Beobachter{
 			}
 		});
 
-		// Button für Rezepterstellung
+		// Button fï¿½r Rezepterstellung
 
 		btnRezepterstellung = new JButton(" zur Rezepterstellung");
 		btnRezepterstellung.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -147,9 +147,9 @@ public class Hauptfenster extends JFrame implements Beobachter{
 			}
 		});
 		
-		// Button für die Übersicht aller Gerichte
+		// Button fï¿½r die ï¿½bersicht aller Gerichte
 
-		btnAlleGerichte = new JButton(" zur Übersicht der Gerichte");
+		btnAlleGerichte = new JButton(" zur Ãœbersicht der Gerichte");
 		btnAlleGerichte.setFont(new Font("Arial", Font.PLAIN, 20));
 		
 		try {
@@ -165,7 +165,7 @@ public class Hauptfenster extends JFrame implements Beobachter{
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<Gericht> alleGerichte = (ArrayList<Gericht>) ((GerichtRegler)Hauptfenster.this.gerichtRegler).holeAlle();
 				alleGerichteUebersicht = new JDialog();
-				alleGerichteUebersicht.setTitle("Übersicht der Gerichte");
+				alleGerichteUebersicht.setTitle("Ãœbersicht der Gerichte");
 				gerichtListe = new JList<Gericht>();
 				gerichtListe.setListData(alleGerichte.toArray(new Gericht[alleGerichte.size()]));
 				alleGerichteUebersicht.add(gerichtListe);
@@ -175,30 +175,30 @@ public class Hauptfenster extends JFrame implements Beobachter{
 
 			}
 		});
-		// ButtonPanel die Buttons hinzufügen
+		// ButtonPanel die Buttons hinzufï¿½gen
 
 		buttonPanel.add(btnWochenplan);
 		buttonPanel.add(btnRezepterstellung);
 		buttonPanel.add(btnAlleGerichte);
 
-		// Panel Mitte befüllen
+		// Panel Mitte befï¿½llen
 
 		pnlMitte.add(label);
 		pnlMitte.add(buttonPanel);
 
-		// Fußzeile hinzufügen
+		// Fuï¿½zeile hinzufï¿½gen
 
 		copyright = new JLabel();
 		copyright.setText("\u00a9 2021 Viktoria Kunzmann & Matthias Klee");
 		copyright.setHorizontalAlignment(SwingConstants.CENTER);
 		copyright.setFont(new Font("Arial", Font.PLAIN, 15));
 
-		// Hauptpanel alle Komponenten hinzufügen
+		// Hauptpanel alle Komponenten hinzufï¿½gen
 		hauptPanel.add(foodfrogLogo, BorderLayout.NORTH);
 		hauptPanel.add(pnlMitte, BorderLayout.CENTER);
 		hauptPanel.add(copyright, BorderLayout.SOUTH);
 
-		// Klasse Hauptfenster alles hinzufügen
+		// Klasse Hauptfenster alles hinzufï¿½gen
 
 		this.add(hauptPanel);
 		this.setTitle("foodfrog");

@@ -45,11 +45,13 @@ public class JdbcEntiaetVerwalter implements EntiaetVerwalter {
 				String erzeugeZutaten = "INSERT INTO zutaten (bezeichnung, menge, einheit, gericht) VALUES ('"
 						+ zutat.getBezeichnung() + "', " + zutat.getMenge()
 						+ ", (SELECT id FROM einheiten WHERE einheit = '" + zutat.getEinheit().einheit
-						+ "'), (SELECT id FROM gerichte WHERE id="+this.verbinder.holeIdVomErstelltenGericht()+"))";
+						+ "'), (SELECT id FROM gerichte WHERE id=" + this.verbinder.holeIdVomErstelltenGericht() + "))";
 			}
 
 			for (Bild bild : gericht.getBilder()) {
-				String erzeugeBilder = "INSERT INTO BILDER (titel, grafik, gericht) VALUES('"+bild.getTitel()+"', ?, (SELECT id FROM gerichte WHERE id="+this.verbinder.holeIdVomErstelltenGericht()+"));";
+				String erzeugeBilder = "INSERT INTO BILDER (titel, grafik, gericht) VALUES('" + bild.getTitel()
+						+ "', ?, (SELECT id FROM gerichte WHERE id=" + this.verbinder.holeIdVomErstelltenGericht()
+						+ "));";
 				this.verbinder.fuehreVorbereiteteAnweisungAus(erzeugeBilder, bild.getGrafik());
 			}
 		}
@@ -70,7 +72,7 @@ public class JdbcEntiaetVerwalter implements EntiaetVerwalter {
 
 	public List<Gericht> holeZufaelligMitFilter(int anzahl, List<Kategorie> filter) {
 		String anweisung = "SELECT DISTINCT * FROM gerichte LEFT JOIN kategorien ON (gerichte.id = kategorien.gericht)";
-		if(filter.size() > 0) {
+		if (filter.size() > 0) {
 			anweisung += " WHERE";
 			anweisung += " kategorien.bezeichnung = \"" + filter.get(0).getBezeichnung() + "\"";
 
@@ -128,51 +130,57 @@ public class JdbcEntiaetVerwalter implements EntiaetVerwalter {
 
 	}
 
-	private Gericht erstelleGericht(ResultSet alleGerichte) throws SQLException {
-		Gericht gericht = null;
-		gericht = new Gericht(alleGerichte.getInt("id"), alleGerichte.getString("name"),
-				alleGerichte.getString("beschreibung"), alleGerichte.getInt("aufwand"));
-
-		// Hole alle Bilder
-		String bilderAnweisung = "SELECT * FROM bilder WHERE bilder.gericht = " + gericht.getId();
-		ResultSet alleBilder = this.verbinder.fuehreAnweisungAus(bilderAnweisung);
+	private List<Bild> holeAlleBilderVomGericht(ResultSet bilder) throws SQLException {
 		List<Bild> bilderListe = new ArrayList<Bild>();
-		while (alleBilder.next()) {
-			Bild bild = new Bild(alleBilder.getInt("id"), alleBilder.getString("titel"), alleBilder.getBytes("grafik"));
+		while (bilder.next()) {
+			Bild bild = new Bild(bilder.getInt("id"), bilder.getString("titel"), bilder.getBytes("grafik"));
 			bilderListe.add(bild);
 		}
-		gericht.setBilder(bilderListe);
+		return bilderListe;
+	}
 
-		// Hole alle Kategorien
-		String kategorieAnweisung = "SELECT * FROM kategorien WHERE kategorien.gericht = " + gericht.getId();
-		ResultSet alleKategorien = this.verbinder.fuehreAnweisungAus(kategorieAnweisung);
+	private List<Kategorie> holeAlleKategorienVomGericht(ResultSet kategorien) throws SQLException {
 		List<Kategorie> kategorienListe = new ArrayList<Kategorie>();
-		while (alleKategorien.next()) {
-			Kategorie kategorie = new Kategorie(alleKategorien.getInt("id"), alleKategorien.getString("bezeichnung"));
+		while (kategorien.next()) {
+			Kategorie kategorie = new Kategorie(kategorien.getInt("id"), kategorien.getString("bezeichnung"));
 			kategorienListe.add(kategorie);
 		}
-		gericht.setKategorien(kategorienListe);
+		return kategorienListe;
+	}
 
-		// Hole alle Zutaten
-		String zutatenAnweisung = "SELECT * FROM zutaten WHERE zutaten.gericht = " + gericht.getId();
-		ResultSet alleZutaten = this.verbinder.fuehreAnweisungAus(zutatenAnweisung);
+	private List<Zutat> holeAlleZutatenVomGericht(ResultSet zutaten) throws SQLException {
 		List<Zutat> zutatenListe = new ArrayList<Zutat>();
-		while (alleZutaten.next()) {
-			Zutat zutat = new Zutat(alleZutaten.getInt("id"), alleZutaten.getString("bezeichnung"),
-					alleZutaten.getInt("menge"));
-			String einheitenAnweisung = "SELECT * FROM einheiten, zutaten WHERE einheiten.id = "
-					+ alleZutaten.getString("einheit");
-			this.verbinder.fuehreAnweisungAus(einheitenAnweisung);
-			ResultSet alleEinheiten = this.verbinder.fuehreAnweisungAus(einheitenAnweisung);
-			while (alleEinheiten.next()) {
-				zutat.setEinheit(Einheit.valueOf(alleEinheiten.getString("einheit")));
-			}
+		while (zutaten.next()) {
+			Zutat zutat = new Zutat(zutaten.getInt("id"), zutaten.getString("bezeichnung"), zutaten.getInt("menge"));
+			zutat.setEinheit(this.holeEinheitVonZutat(this.verbinder.fuehreAnweisungAus(
+					"SELECT * FROM einheiten, zutaten WHERE einheiten.id = zutaten.id AND einheiten.id = " + zutaten.getString("einheit"))));
 			zutatenListe.add(zutat);
 		}
-		gericht.setZutaten(zutatenListe);
+		return zutatenListe;
+	}
+
+	private Einheit holeEinheitVonZutat(ResultSet einheiten) throws SQLException {
+		Einheit einheit = null;
+		while (einheiten.next()) {
+			einheit = Einheit.valueOf(einheiten.getString("einheit"));
+		}
+		return einheit;
+	}
+
+	private Gericht erstelleGericht(ResultSet alleGerichte) throws SQLException {
+		Gericht gericht = new Gericht(alleGerichte.getInt("id"), alleGerichte.getString("name"),
+				alleGerichte.getString("beschreibung"), alleGerichte.getInt("aufwand"));
+
+		gericht.setBilder(this.holeAlleBilderVomGericht(
+				this.verbinder.fuehreAnweisungAus("SELECT * FROM bilder WHERE bilder.gericht = " + gericht.getId())));
+
+		gericht.setKategorien(this.holeAlleKategorienVomGericht(this.verbinder
+				.fuehreAnweisungAus("SELECT * FROM kategorien WHERE kategorien.gericht = " + gericht.getId())));
+
+		gericht.setZutaten(this.holeAlleZutatenVomGericht(
+				this.verbinder.fuehreAnweisungAus("SELECT * FROM zutaten WHERE zutaten.gericht = " + gericht.getId())));
 
 		return gericht;
-
 	}
 
 	public Entitaet holeZufaellig(Class c) {

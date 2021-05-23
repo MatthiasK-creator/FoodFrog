@@ -25,32 +25,29 @@ import foodfrog.kern.Zutat;
 class GerichtVerwaltungTest {
 	private Gerichtverwaltung verwaltung;
 	private EntiaetVerwalter verwalter;
-//	public List<Gericht> holeZufaelligMitFilter(int anzahl, List<Kategorie> filter);
-
+	private Gericht gericht;
 	
 	
 	@BeforeEach
 	void richteEin() throws Exception {
 		verwalter = EasyMock.createMock(EntiaetVerwalter.class);
 		verwaltung = new Gerichtverwaltung(verwalter);
+		gericht = new Gericht(1, "Spaghetti Cabonara", "Nudeln ins Wasser und leckere Cabonora-Soße kochen", 60);
+		Zutat zutat = new Zutat(1, "Spaghetti Nudeln", 500);
+		zutat.setEinheit(Einheit.g);
+		gericht.setZutaten(Arrays.asList(zutat));
+		gericht.setKategorien(Arrays.asList(new Kategorie(1, "vegetarisch")));
+		gericht.setBilder(Arrays.asList(new Bild(1, "Testbild", "Test".getBytes())));
+
 	}
 	
 	@Test
 	void holeZufaelligMitFilter() {
 		verwalter = EasyMock.createMock(EntiaetVerwalter.class);
 
-		Gericht gericht = new Gericht(1, "Spaghetti Cabonara", "Nudeln ins Wasser und leckere Cabonora-Soße kochen", 60);
-		Kategorie kat = new Kategorie(1, "vegetarisch");
 		
-		Zutat zutat = new Zutat(1, "Spaghetti Nudeln", 500);
-		zutat.setEinheit(Einheit.g);
-		gericht.setZutaten(Arrays.asList(zutat));
-		
-		List<Kategorie> kategorieListe = Arrays.asList(kat);
+		List<Kategorie> kategorieListe = Arrays.asList(new Kategorie(1, "vegetarisch"));
 		gericht.setKategorien(kategorieListe);
-		
-		Bild bild = new Bild(1, "Testbild", "Test".getBytes());
-		gericht.setBilder(Arrays.asList(bild));
 		EasyMock.expect(verwalter.holeZufaelligMitFilter(1, kategorieListe)).andReturn(Arrays.asList(gericht));
 		EasyMock.replay(verwalter);
 
@@ -76,20 +73,22 @@ class GerichtVerwaltungTest {
 	
 	@Test
 	void holeZufaellig() {
-		Gericht gericht = new Gericht(1, "Spaghetti Cabonara", "Nudeln ins Wasser und leckere Cabonora-Soße kochen", 60);
+		// Auf Mock auslagern
 		EasyMock.expect(verwalter.holeZufaellig(Gericht.class)).andReturn(gericht);
 		EasyMock.replay(verwalter);
 		
-		assertEquals(gericht.getId(), 1);
-		assertEquals(gericht.getName(), "Spaghetti Cabonara");
-		assertEquals(gericht.getBeschreibung(), "Nudeln ins Wasser und leckere Cabonora-Soße kochen");
-		assertEquals(gericht.getAufwand(), 60);
+		Gericht geholtesGericht = (Gericht) verwalter.holeZufaellig(Gericht.class);
+
+		
+		assertEquals(geholtesGericht.getId(), 1);
+		assertEquals(geholtesGericht.getName(), "Spaghetti Cabonara");
+		assertEquals(geholtesGericht.getBeschreibung(), "Nudeln ins Wasser und leckere Cabonora-Soße kochen");
+		assertEquals(geholtesGericht.getAufwand(), 60);
 
 	}
 	
 	@Test
 	void holeGerichtMitId() {
-		Gericht gericht = new Gericht(1, "Spaghetti Cabonara", "Nudeln ins Wasser und leckere Cabonora-Soße kochen", 60);
 		EasyMock.expect(verwalter.hole(Gericht.class, 1)).andReturn(gericht);
 		EasyMock.replay(verwalter);
 		
@@ -103,9 +102,6 @@ class GerichtVerwaltungTest {
 	
 	@Test
 	void aendereGericht() {
-		//Gericht, dass gelöscht werden soll
-		Gericht gericht = new Gericht(1, "Spaghetti Cabonara", "Nudeln ins Wasser und leckere Cabonora-Soße kochen", 60);
-		//Methode loeschen ruft hole auf, um zu prüfen, ob das Gericht vorhanden ist.
 		EasyMock.expect(verwalter.aendere(Gericht.class, 1, gericht)).andReturn(gericht);
 		EasyMock.replay(verwalter);
 
@@ -139,7 +135,6 @@ class GerichtVerwaltungTest {
 	
 	@Test
 	void erstelleGericht() {
-		Gericht gericht = new Gericht("Spaghetti Cabonara", "Nudeln ins Wasser und leckere Cabonora-Soße kochen", 60);
 		EasyMock.expect(verwalter.erstellle(Gericht.class, gericht)).andReturn(gericht);
 		EasyMock.replay(verwalter);
 		
@@ -154,17 +149,15 @@ class GerichtVerwaltungTest {
 	
 	@Test
 	void ladeAlleGerichte() {
-		//Einlernen von Mock
-		List<Entitaet> gerichte = Arrays.asList(new Gericht("Spaghetti Bolognese", "Nudeln ins Wasser und leckere Soße kochen", 60));
+		List<Entitaet> gerichte = Arrays.asList(gericht);
 		EasyMock.expect(verwalter.holeAlle(Gericht.class)).andReturn(gerichte);
-		//Abspielen
+		
 		EasyMock.replay(verwalter);
 
-		//Mock von EntitaetVerwalter erstellen
 		List<Gericht> alleGerichte = verwaltung.holeAlle();
 		assertEquals(alleGerichte.size(), 1);
-		assertEquals(alleGerichte.get(0).getName(), "Spaghetti Bolognese");
-		assertEquals(alleGerichte.get(0).getBeschreibung(), "Nudeln ins Wasser und leckere Soße kochen");
+		assertEquals(alleGerichte.get(0).getName(), "Spaghetti Cabonara");
+		assertEquals(alleGerichte.get(0).getBeschreibung(), "Nudeln ins Wasser und leckere Cabonora-Soße kochen");
 		assertEquals(alleGerichte.get(0).getAufwand(),  60);
 		EasyMock.verify(verwalter);
 	}
