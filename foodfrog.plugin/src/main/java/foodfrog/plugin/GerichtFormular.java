@@ -91,7 +91,6 @@ public class GerichtFormular extends JPanel {
 		btnStartseite.setFont(new Font("Arial", Font.PLAIN, 20));
 		try {
 			Image imgStartseite = ImageIO.read(getClass().getClassLoader().getResource("gingerbread.png"));
-			System.out.println(imgStartseite);
 			imgStartseite = imgStartseite.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 			btnStartseite.setIcon(new ImageIcon(imgStartseite));
 		} catch (Exception ex) {
@@ -123,7 +122,7 @@ public class GerichtFormular extends JPanel {
 						|| GerichtFormular.this.tfZubZeit.getText().isEmpty() || GerichtFormular.this.kategorieListe.getSelectedValuesList().size() <= 0
 						|| GerichtFormular.this.gesamtZutatenMengenKomponente.holeErstellteZutaten().size() <= 0
 						|| GerichtFormular.this.bilderAuswahl.size() <= 0) {
-					JOptionPane.showMessageDialog(GerichtFormular.this, "Bitte alle Felder ausfüllen.");
+					JOptionPane.showMessageDialog(GerichtFormular.this, "Bitte alle Felder ausfï¿½llen.");
 					return;
 				}
 
@@ -154,7 +153,7 @@ public class GerichtFormular extends JPanel {
 		rezept.setFont(new Font("Arial", Font.PLAIN, 30));
 		rezept.setHorizontalAlignment(SwingConstants.CENTER);
 
-		// Label Logo Foodfrog für Rezeperstellung
+		// Label Logo Foodfrog fï¿½r Rezeperstellung
 
 		logoRezeptFrog = new JLabel();
 
@@ -171,7 +170,6 @@ public class GerichtFormular extends JPanel {
 
 		try {
 			Image imgUpload = ImageIO.read(getClass().getClassLoader().getResource("upload.png"));
-			System.out.println(imgUpload);
 			imgUpload = imgUpload.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 			btnBildHochladen.setIcon(new ImageIcon(imgUpload));
 		} catch (Exception ex) {
@@ -201,7 +199,7 @@ public class GerichtFormular extends JPanel {
 				
 			}
 		});
-		// Zum Panel Navigationsleiste hinzufügen
+		// Zum Panel Navigationsleiste hinzufï¿½gen
 
 		pnlNavigationsleiste.add(btnStartseite);
 		pnlNavigationsleiste.add(btnSpeichern);
@@ -247,7 +245,7 @@ public class GerichtFormular extends JPanel {
 		JPanel pnlunterKategorie = new JPanel();
 		pnlunterKategorie.setLayout(new GridLayout(2, 1));
 
-//		JLabel land = new JLabel("Länderkategorie: ");
+//		JLabel land = new JLabel("Lï¿½nderkategorie: ");
 //		land.setFont(new Font("Arial", Font.ITALIC, 15));
 //		JLabel zubereitung = new JLabel("Zubereitungsart: ");
 //		zubereitung.setFont(new Font("Arial", Font.ITALIC, 15));
@@ -282,7 +280,6 @@ public class GerichtFormular extends JPanel {
 		btnPlus.setFont(new Font("Arial", Font.PLAIN, 20));
 		try {
 			Image imgPlus = ImageIO.read(getClass().getClassLoader().getResource("plus.png"));
-			System.out.println(imgPlus);
 			imgPlus = imgPlus.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 			btnPlus.setIcon(new ImageIcon(imgPlus));
 		} catch (Exception ex) {
@@ -312,7 +309,7 @@ public class GerichtFormular extends JPanel {
 		pnlZutatenMengen.add(btnPlus);
 		pnlZutatenMengen.add(pnlZutatenMengenErstellung);
 
-		// ZutatenMengenKomponenten Klasse hinzufügen
+		// ZutatenMengenKomponenten Klasse hinzufï¿½gen
 
 		gesamtZutatenMengenKomponente = new GesamtZutatenMengenKomponente();
 

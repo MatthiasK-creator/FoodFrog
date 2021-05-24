@@ -14,7 +14,7 @@ import org.easymock.EasyMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import foodfrog.applikation.EntiaetVerwalter;
+import foodfrog.applikation.EntitaetVerwalter;
 import foodfrog.applikation.Gerichtverwaltung;
 import foodfrog.applikation.Wochenplanverwaltung;
 import foodfrog.kern.Bild;
@@ -24,14 +24,14 @@ import foodfrog.kern.Kategorie;
 import foodfrog.kern.Zutat;
 
 class WochenplanVerwaltungTest {
-	private EntiaetVerwalter verwalter;
+	private EntitaetVerwalter verwalter;
 	private Gericht gericht;
 	private Wochenplanverwaltung verwaltung;
 	private Zutat zutat;
 
 	@BeforeEach
 	void richteEin() throws Exception {
-		verwalter = EasyMock.createMock(EntiaetVerwalter.class);
+		verwalter = EasyMock.createMock(EntitaetVerwalter.class);
 		verwaltung = new Wochenplanverwaltung(verwalter);
 		gericht = new Gericht(1, "Spaghetti Cabonara", "Nudeln ins Wasser und leckere Cabonora-Soße kochen", 60);
 		zutat = new Zutat(1, "Spaghetti Nudeln", 500);

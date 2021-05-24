@@ -48,7 +48,7 @@ public class GerichtKomponente extends JPanel {
 		// zubereitungsZeit
 		gerichtRenderer = GerichtRenderer.holeInstanz();
 
-		// Panel Westen für Wochentag
+		// Panel Westen fï¿½r Wochentag
 
 		pnlWest = new JPanel();
 		pnlWest.setPreferredSize(new Dimension(150,100));
@@ -56,7 +56,7 @@ public class GerichtKomponente extends JPanel {
 		lblWochentag.setFont(new Font("Arial", Font.BOLD, 30));
 		pnlWest.add(lblWochentag);
 
-		// Panel Mitte für Gerichtname, Kategorie, Dauer und Buttons
+		// Panel Mitte fï¿½r Gerichtname, Kategorie, Dauer und Buttons
 
 		pnlMitte = new JPanel(new GridBagLayout());
 		GridBagConstraints mitteConstraints = new GridBagConstraints();
@@ -100,7 +100,6 @@ public class GerichtKomponente extends JPanel {
 		btnZumRezept.setFont(new Font("Arial", Font.PLAIN, 15));
 		try {
 			Image imgZumRezept = ImageIO.read(getClass().getClassLoader().getResource("rezeptbuch.png"));
-			System.out.println(imgZumRezept);
 			imgZumRezept = imgZumRezept.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 			btnZumRezept.setIcon(new ImageIcon(imgZumRezept));
 		} catch (Exception ex) {
@@ -128,7 +127,7 @@ public class GerichtKomponente extends JPanel {
 		mitteConstraints.gridy = 3;
 		pnlMitte.add(pnlButton, mitteConstraints);
 
-		// Panel Mitte für Bild des Gerichts
+		// Panel Mitte fï¿½r Bild des Gerichts
 
 		pnlOsten = new JPanel();
 

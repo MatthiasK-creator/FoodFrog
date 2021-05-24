@@ -13,19 +13,19 @@ import org.easymock.Mock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import foodfrog.applikation.EntiaetVerwalter;
+import foodfrog.applikation.EntitaetVerwalter;
 import foodfrog.applikation.Gerichtverwaltung;
 import foodfrog.kern.Entitaet;
 import foodfrog.kern.Gericht;
 import foodfrog.kern.Kategorie;
 import foodfrog.plugin.datenbasis.IJDBCAnweisungen;
-import foodfrog.plugin.datenbasis.JdbcEntiaetVerwalter;
+import foodfrog.plugin.datenbasis.JdbcEntitaetVerwalter;
 import foodfrog.plugin.datenbasis.JdbcVerbinder;
 
 class JdbcEntitaetVerwalterTest {
 	
 	private IJDBCAnweisungen datenbankVerbindung;
-	private JdbcEntiaetVerwalter jdbcVerwalter;
+	private JdbcEntitaetVerwalter jdbcVerwalter;
 	private final static String HOLEZUFAELLIG_MIT_ANWEISUNG="SELECT DISTINCT * FROM gerichte LEFT JOIN kategorien ON (gerichte.id = kategorien.gericht) WHERE kategorien.bezeichnung = 'Fischgericht' GROUP BY gerichte.id ORDER BY RANDOM() LIMIT 1";
 	private final static String HOLE_ALLE_BILDER="SELECT * FROM bilder WHERE bilder.gericht = 1";
 	private final static String HOLE_ALLE_KATEGORIEN="SELECT * FROM bilder WHERE bilder.gericht = 1";
@@ -36,7 +36,7 @@ class JdbcEntitaetVerwalterTest {
 	@BeforeEach
 	void richteEin() throws Exception {
 		datenbankVerbindung = EasyMock.createMock(IJDBCAnweisungen.class);
-		this.jdbcVerwalter = new JdbcEntiaetVerwalter(datenbankVerbindung);
+		this.jdbcVerwalter = new JdbcEntitaetVerwalter(datenbankVerbindung);
 		dbRueckgabe = EasyMock.createMock(ResultSet.class);
 		EasyMock.expect(dbRueckgabe.getInt("id")).andReturn(1);
 		EasyMock.expect(dbRueckgabe.getString("name")).andReturn("Seehecht mit KräuterBohnen-Risotto");

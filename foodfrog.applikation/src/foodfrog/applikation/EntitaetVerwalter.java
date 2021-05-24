@@ -6,7 +6,7 @@ import foodfrog.kern.Gericht;
 import foodfrog.kern.Kategorie;
 import foodfrog.kern.Entitaet;
 
-public interface EntiaetVerwalter {
+public interface EntitaetVerwalter {
 	public Entitaet erstellle(Class c, Entitaet gericht);
 	public boolean loesche(Class c, int id);
 	public Entitaet aendere(Class c, int id, Entitaet gericht);

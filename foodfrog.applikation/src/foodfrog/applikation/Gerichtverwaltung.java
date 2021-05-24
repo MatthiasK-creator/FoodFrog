@@ -12,9 +12,9 @@ import foodfrog.kern.Kategorie;
 
 public class Gerichtverwaltung {
 	
-	public EntiaetVerwalter verwalter;
+	public EntitaetVerwalter verwalter;
 	
-	public Gerichtverwaltung(EntiaetVerwalter verwalter) {
+	public Gerichtverwaltung(EntitaetVerwalter verwalter) {
 		this.verwalter = verwalter;
 	}
 	

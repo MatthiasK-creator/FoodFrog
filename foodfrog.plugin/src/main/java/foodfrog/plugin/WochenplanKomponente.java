@@ -74,7 +74,6 @@ public class WochenplanKomponente extends JPanel {
 		btnNeueRezepte.setFont(new Font("Arial", Font.PLAIN, 20));
 		try {
 			Image imgNeueRezepte = ImageIO.read(getClass().getClassLoader().getResource("refresh.png"));
-			System.out.println(imgNeueRezepte);
 			imgNeueRezepte = imgNeueRezepte.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 			btnNeueRezepte.setIcon(new ImageIcon(imgNeueRezepte));
 		} catch (Exception ex) {
@@ -85,7 +84,7 @@ public class WochenplanKomponente extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(WochenplanKomponente.this.wochentagListe.getSelectedValuesList().size() < 0) {
-					JOptionPane.showConfirmDialog(WochenplanKomponente.this, "Bitte wähle mindestens ein Wochentag aus.");
+					JOptionPane.showConfirmDialog(WochenplanKomponente.this, "Bitte wï¿½hle mindestens ein Wochentag aus.");
 				}
 				WochenplanKomponente.this.aktuelleListeVonGerichten = WochenplanKomponente.this.wochenplanRegler.generiereWochenplan(WochenplanKomponente.this.wochentagListe.getSelectedValuesList().size(), 
 																			   WochenplanKomponente.this.kategorieListe.getSelectedValuesList());
@@ -115,7 +114,6 @@ public class WochenplanKomponente extends JPanel {
 		btnStartseite.setFont(new Font("Arial", Font.PLAIN, 20));
 		try {
 			Image imgStartseite = ImageIO.read(getClass().getClassLoader().getResource("gingerbread.png"));
-			System.out.println(imgStartseite);
 			imgStartseite = imgStartseite.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 			btnStartseite.setIcon(new ImageIcon(imgStartseite));
 		} catch (Exception ex) {
@@ -134,7 +132,6 @@ public class WochenplanKomponente extends JPanel {
 		btnEinkaufsliste.setFont(new Font("Arial", Font.PLAIN, 20));
 		try {
 			Image imgEinkaufsliste = ImageIO.read(getClass().getClassLoader().getResource("einkaufen.png"));
-			System.out.println(imgEinkaufsliste);
 			imgEinkaufsliste = imgEinkaufsliste.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 			btnEinkaufsliste.setIcon(new ImageIcon(imgEinkaufsliste));
 		} catch (Exception ex) {
@@ -165,12 +162,11 @@ public class WochenplanKomponente extends JPanel {
 		lblwochenplan.setHorizontalAlignment(SwingConstants.CENTER);
 
 		
-		// Label Logo Foodfrog für Rezeperstellung
+		// Label Logo Foodfrog fï¿½r Rezeperstellung
 		foodfrogLogo = new JLabel();
 		
 		try {
 			Image imgFrog = ImageIO.read(getClass().getClassLoader().getResource("foodfrogLogo.png"));
-			System.out.println(imgFrog);
 			imgFrog = imgFrog.getScaledInstance(80, 100, Image.SCALE_SMOOTH);
 			foodfrogLogo.setIcon(new ImageIcon(imgFrog));
 		} catch (Exception ex) {
@@ -182,7 +178,7 @@ public class WochenplanKomponente extends JPanel {
 		wochentagListe = new JList(Wochentag.values());
 		kategorieListe = new JList(wochenplanRegler.holeAlleKategorien().toArray(new Kategorie[wochenplanRegler.holeAlleKategorien().size()]));
 		wochentagListe.setVisibleRowCount(wochenplanRegler.holeAlleKategorien().size());
-		// Navigationsleiste alles hinzufügen
+		// Navigationsleiste alles hinzufï¿½gen
 		
 
 		pnlWPNavigation.add(btnNeueRezepte);

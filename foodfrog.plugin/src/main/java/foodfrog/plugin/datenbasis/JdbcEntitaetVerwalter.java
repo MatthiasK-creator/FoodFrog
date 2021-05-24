@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
-import foodfrog.applikation.EntiaetVerwalter;
+import foodfrog.applikation.EntitaetVerwalter;
 import foodfrog.kern.Bild;
 import foodfrog.kern.Einheit;
 import foodfrog.kern.Entitaet;
@@ -19,11 +19,11 @@ import foodfrog.kern.Gericht;
 import foodfrog.kern.Kategorie;
 import foodfrog.kern.Zutat;
 
-public class JdbcEntiaetVerwalter implements EntiaetVerwalter {
+public class JdbcEntitaetVerwalter implements EntitaetVerwalter {
 
 	private IJDBCAnweisungen verbinder;
 
-	public JdbcEntiaetVerwalter(IJDBCAnweisungen verbinder) {
+	public JdbcEntitaetVerwalter(IJDBCAnweisungen verbinder) {
 		this.verbinder = verbinder;
 	}
 

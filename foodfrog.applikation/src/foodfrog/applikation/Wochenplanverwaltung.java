@@ -11,9 +11,9 @@ import foodfrog.kern.Zutat;
 public class Wochenplanverwaltung {
 	
 	private List<Gericht> wochenplan;
-	private EntiaetVerwalter verwalter;
+	private EntitaetVerwalter verwalter;
 	
-	public Wochenplanverwaltung(EntiaetVerwalter verwalter) {
+	public Wochenplanverwaltung(EntitaetVerwalter verwalter) {
 		this.verwalter = verwalter;
 		wochenplan = new ArrayList<>();
 	}

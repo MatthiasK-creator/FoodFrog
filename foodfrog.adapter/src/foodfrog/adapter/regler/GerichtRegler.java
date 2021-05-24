@@ -6,7 +6,7 @@ import java.util.List;
 import foodfrog.adapter.beobachter.muster.Beobachter;
 import foodfrog.adapter.beobachter.muster.Ereignis;
 import foodfrog.adapter.beobachter.muster.Subjekt;
-import foodfrog.applikation.EntiaetVerwalter;
+import foodfrog.applikation.EntitaetVerwalter;
 import foodfrog.applikation.Gerichtverwaltung;
 import foodfrog.kern.Entitaet;
 import foodfrog.kern.Gericht;
