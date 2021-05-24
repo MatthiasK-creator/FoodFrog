@@ -32,13 +32,8 @@ public class Wochenplanverwaltung {
 		return false;
 	}
 	
-	public boolean gerichtHinzufuegen(Gericht gericht) {
-		if(this.wochenplan.size() < 7 && !this.wochenplan.contains(gericht)) {
-			this.wochenplan.add(holeNeuesGericht());
-			return true;
-		}else {
-			return false;
-		}
+	public void gerichtHinzufuegen(Gericht gericht) {
+		this.wochenplan.add(holeNeuesGericht());
 	}
 	// Eigentlich ist das die Aufgabe von einem KategorieRegler.
 	public ArrayList<Kategorie> holeAlleKategorien(){

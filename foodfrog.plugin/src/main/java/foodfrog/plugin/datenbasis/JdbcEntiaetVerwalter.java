@@ -21,9 +21,9 @@ import foodfrog.kern.Zutat;
 
 public class JdbcEntiaetVerwalter implements EntiaetVerwalter {
 
-	private JdbcVerbinder verbinder;
+	private IJDBCAnweisungen verbinder;
 
-	public JdbcEntiaetVerwalter(JdbcVerbinder verbinder) {
+	public JdbcEntiaetVerwalter(IJDBCAnweisungen verbinder) {
 		this.verbinder = verbinder;
 	}
 
@@ -82,7 +82,6 @@ public class JdbcEntiaetVerwalter implements EntiaetVerwalter {
 		}
 		anweisung += " GROUP BY gerichte.id";
 		anweisung += " ORDER BY RANDOM() LIMIT " + anzahl;
-		System.out.println(anweisung);
 		ResultSet alleGerichte = this.verbinder.fuehreAnweisungAus(anweisung);
 		List<Gericht> listeMitAllenGerichten = new ArrayList<Gericht>();
 		try {

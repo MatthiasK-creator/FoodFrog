@@ -13,6 +13,5 @@ public interface EntiaetVerwalter {
 	public Entitaet hole(Class c, int id);
 	public Entitaet holeZufaellig(Class c);
 	public List<Entitaet> holeAlle(Class c);
-	
 	public List<Gericht> holeZufaelligMitFilter(int anzahl, List<Kategorie> filter);
 }

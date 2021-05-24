@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,50 +43,18 @@ class GerichtVerwaltungTest {
 	}
 	
 	@Test
-	void holeZufaelligMitFilter() {
-		verwalter = EasyMock.createMock(EntiaetVerwalter.class);
-
-		
-		List<Kategorie> kategorieListe = Arrays.asList(new Kategorie(1, "vegetarisch"));
-		gericht.setKategorien(kategorieListe);
-		EasyMock.expect(verwalter.holeZufaelligMitFilter(1, kategorieListe)).andReturn(Arrays.asList(gericht));
+	void holeAlleKategorien() {
+		EasyMock.expect(verwalter.holeAlle(Kategorie.class)).andReturn(Arrays.asList(new Kategorie(1, "vegetarisch")));
 		EasyMock.replay(verwalter);
-
-		Wochenplanverwaltung wochenplanVerwaltung = new Wochenplanverwaltung(verwalter);
-		List<Gericht> gefilterteGerichte = wochenplanVerwaltung.generiereWochenplan(1, kategorieListe);
 		
-		assertEquals(gefilterteGerichte.get(0).getName(), "Spaghetti Cabonara");
-		assertEquals(gefilterteGerichte.get(0).getBeschreibung(), "Nudeln ins Wasser und leckere Cabonora-Soße kochen");
-		assertEquals(gefilterteGerichte.get(0).getAufwand(), 60);
-		assertEquals(gefilterteGerichte.get(0).getKategorien().get(0).getId(), 1);
-		assertEquals(gefilterteGerichte.get(0).getKategorien().get(0).getBezeichnung(), "vegetarisch");
-		assertEquals(gefilterteGerichte.get(0).getZutaten().get(0).getId(), 1);
-		assertEquals(gefilterteGerichte.get(0).getZutaten().get(0).getBezeichnung(), "Spaghetti Nudeln");
-		assertEquals(gefilterteGerichte.get(0).getZutaten().get(0).getMenge(), 500);
-		assertEquals(gefilterteGerichte.get(0).getZutaten().get(0).getEinheit(), Einheit.g);
-		assertEquals(gefilterteGerichte.get(0).getBilder().get(0).getId(), 1);
-		assertEquals(gefilterteGerichte.get(0).getBilder().get(0).getTitel(), "Testbild");
-		assertArrayEquals(gefilterteGerichte.get(0).getBilder().get(0).getGrafik(), "Test".getBytes());
+		ArrayList<Kategorie> kategorien = this.verwaltung.holeAlleKategorien();
 		
+		assertEquals(kategorien.size(), 1);
+		assertEquals(kategorien.get(0).getId(), 1);
+		assertEquals(kategorien.get(0).getBezeichnung(), "vegetarisch");
 		EasyMock.verify(verwalter);
-		
 	}
-	
-	@Test
-	void holeZufaellig() {
-		// Auf Mock auslagern
-		EasyMock.expect(verwalter.holeZufaellig(Gericht.class)).andReturn(gericht);
-		EasyMock.replay(verwalter);
-		
-		Gericht geholtesGericht = (Gericht) verwalter.holeZufaellig(Gericht.class);
 
-		
-		assertEquals(geholtesGericht.getId(), 1);
-		assertEquals(geholtesGericht.getName(), "Spaghetti Cabonara");
-		assertEquals(geholtesGericht.getBeschreibung(), "Nudeln ins Wasser und leckere Cabonora-Soße kochen");
-		assertEquals(geholtesGericht.getAufwand(), 60);
-
-	}
 	
 	@Test
 	void holeGerichtMitId() {
@@ -98,6 +67,7 @@ class GerichtVerwaltungTest {
 		assertEquals(gericht.getName(), geholtesGericht.getName());
 		assertEquals(gericht.getBeschreibung(), geholtesGericht.getBeschreibung());
 		assertEquals(gericht.getAufwand(), geholtesGericht.getAufwand());
+		EasyMock.verify(verwalter);
 	}
 	
 	@Test

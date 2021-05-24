@@ -33,8 +33,8 @@ public class WochenplanRegler implements Subjekt{
 		return this.wochenplanVerwaltung.gerichtLoeschen(gericht);
 	}
 	
-	public boolean gerichtHinzufuegen(Gericht gericht) {
-		return this.wochenplanVerwaltung.gerichtHinzufuegen(gericht);
+	public void gerichtHinzufuegen(Gericht gericht) {
+		this.wochenplanVerwaltung.gerichtHinzufuegen(gericht);
 	}
 	
 	public ArrayList<Kategorie> holeAlleKategorien(){
