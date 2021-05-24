@@ -4,7 +4,7 @@ public enum Einheit {
 	
 	g("g"), ml("ml"), kg("kg"), TL("TL"), EL("EL"), l("l"),
 	Messerspitze("Messerspitze"), Tasse("Tasse"), Spritzer("Spritzer"), Becher("Becher"), Bund("Bund"), Dose("Dose"),
-	Flasche("Flasche"), Glas("Glas"), Packung("Packung"), Stück("Stück"), Tropfen("Tropfen"), Würfel("Würfel"),
+	Flasche("Flasche"), Glas("Glas"), Packung("Packung"), StÃ¼ck("StÃ¼ck"), Tropfen("Tropfen"), WÃ¼rfel("WÃ¼rfel"),
 	Zehe("Zehe");
 
 	public String einheit;
